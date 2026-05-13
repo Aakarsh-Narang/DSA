@@ -32,6 +32,7 @@ This repository represents my journey of solving hundreds of problems across mul
 - Heaps & Priority Queues
 - Stack & Queue
 - Two Pointers
+- Prefix Sum
 - Graph Algorithms
 - and more...
 
