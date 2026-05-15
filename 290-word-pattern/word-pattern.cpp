@@ -2,19 +2,19 @@ class Solution {
 public:
     bool wordPattern(string pattern, string s) {
         istringstream iss(s);
-        vector<std::string> words;
+        vector<string> words;
         string word;
         
-        while (iss >> word) {
+        while(iss >> word) {
             words.push_back(word);}
         
-        if (pattern.size() != words.size()) {
+        if(pattern.size() != words.size()) {
             return false;}
 
         unordered_map<char, string> charToWord;
         unordered_set<string> seenWords;
 
-        for (int i = 0; i < pattern.size(); ++i) {
+        for(int i = 0; i < pattern.size(); ++i) {
             char c = pattern[i];
             const string& w = words[i];
 
