@@ -8,6 +8,7 @@ public:
         sort(intervals.begin(), intervals.end(), cmp);
         vector<int> ans;
         int n = intervals.size();
+        // Assumption: last1 > last2
         int last1 = intervals[n-1][0]+1, last2 = intervals[n-1][0];
         ans.push_back(last1);
         ans.push_back(last2);
