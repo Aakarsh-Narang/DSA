@@ -4,18 +4,17 @@ public:
         unordered_set<int> numSet(nums.begin(), nums.end());
         int longest = 0;
 
-        for (int num : numSet) {
-            if (numSet.find(num - 1) == numSet.end()) {
+        for(auto num : numSet){
+            if(numSet.count(num-1) == 0){
                 int length = 1;
 
-                while (numSet.find(num + length) != numSet.end()) {
+                while(numSet.count(num+length)){
                     length++;
                 }
 
                 longest = max(longest, length);
             }
         }
-
         return longest;
     }
 };
