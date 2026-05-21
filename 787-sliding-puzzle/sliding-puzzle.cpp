@@ -29,11 +29,11 @@ public:
 
         int moves = 0;
         while(!q.empty()){
-            moves++;
             int size = q.size();
             while(size--){
                 currState = q.front();
-                
+                if(currState == "123450") 
+                        return moves;
                 q.pop();
                 int zeroIdx = currState.find('0');
 
@@ -42,14 +42,14 @@ public:
                     string nextState = currState;
                     swap(nextState[zeroIdx], nextState[nextIdx]);
 
-                    if(nextState == "123450") 
-                        return moves;
+                    
                     if(st.count(nextState)) continue;
 
                     q.push(nextState);
                     st.insert(nextState);
                 }
             }
+            moves++;
         }
         return -1;
     }
