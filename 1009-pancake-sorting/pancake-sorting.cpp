@@ -25,7 +25,8 @@ public:
             if(ff != 0)
                 reverse(arr.begin(), arr.begin() + ff+1);
             // printArr(arr);
-    
+            
+            if(target != 1)
                 reverse(arr.begin(), arr.begin() + target);
             // printArr(arr);
         }
