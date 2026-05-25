@@ -19,16 +19,17 @@ public:
             }
             if(ff == target-1 ) continue;
 
-            ans.push_back(ff+1);
-            ans.push_back(target);
-
-            if(ff != 0)
+            if(ff != 0){
                 reverse(arr.begin(), arr.begin() + ff+1);
-            // printArr(arr);
+                ans.push_back(ff+1);
+                // printArr(arr);
+            }
             
-            if(target != 1)
+            if(target != 1){
                 reverse(arr.begin(), arr.begin() + target);
-            // printArr(arr);
+                ans.push_back(target);
+                // printArr(arr);
+            }
         }
         return ans;
     }
