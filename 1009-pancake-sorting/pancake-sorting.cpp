@@ -22,10 +22,11 @@ public:
             ans.push_back(ff+1);
             ans.push_back(target);
 
-            reverse(arr.begin(), arr.begin() + ff+1);
+            if(ff != 0)
+                reverse(arr.begin(), arr.begin() + ff+1);
             // printArr(arr);
-            
-            reverse(arr.begin(), arr.begin() + target);
+    
+                reverse(arr.begin(), arr.begin() + target);
             // printArr(arr);
         }
         return ans;
