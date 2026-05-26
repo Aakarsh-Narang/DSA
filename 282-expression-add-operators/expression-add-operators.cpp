@@ -1,40 +1,34 @@
 class Solution {
 public:
-    void backtrack(string& num, int target, int pos, long long total, long long last, string expr, vector<string>& ans) {
-        if (pos == num.size()) {
-            if (total == target)
-                ans.push_back(expr);
+    void solve(string& s, int& target, int idx, string exp, long long currVal, long long prevOp, vector<string>& ans){
+        if(idx == s.size()){
+            if(currVal == target)
+                ans.push_back(exp);
             return;
         }
+        for(int i = idx; i < s.size(); i++){
+            string currExp = s.substr(idx, i - idx + 1);
+            long long currOp = stoll(currExp);
 
-        for (int end = pos; end < num.size(); end++) {
-            // Prevent numbers like 05, 012, etc.
-            if (num[pos] == '0' && end != pos)
-                break;
+            // Prevent Leading 0s, eg: 012, 05, etc.
+            if(i != idx && s[idx] == '0') break;
 
-            string part = num.substr(pos, end - pos + 1);
-            long long val = stoll(part);
-
-            // First number
-            if (pos == 0) {
-                backtrack(num, target, end + 1, val, val, part, ans);
+            if(idx == 0){
+                solve(s, target, i+1, currExp, currOp, currOp, ans);
             }
-            else {
-                // Addition
-                backtrack(num, target, end + 1, total + val, val, expr + "+" + part, ans);
-
-                // Subtraction
-                backtrack(num, target, end + 1, total - val, -val, expr + "-" + part, ans);
-
-                // Multiplication
-                backtrack(num, target, end + 1, total - last + (last * val), last * val, expr + "*" + part, ans);
+            else{
+                // +
+                solve(s, target, i+1, exp + "+" + currExp, currVal + currOp, currOp, ans);
+                // -
+                solve(s, target, i+1, exp + "-" + currExp, currVal - currOp, -currOp, ans);
+                // *
+                solve(s, target, i+1, exp + "*" + currExp, currVal - prevOp + (prevOp * currOp), prevOp * currOp, ans);
             }
         }
     }
-
     vector<string> addOperators(string num, int target) {
         vector<string> ans;
-        backtrack(num, target, 0, 0, 0, "", ans);
+        solve(num, target, 0,"", 0, 0, ans);
         return ans;
     }
 };
