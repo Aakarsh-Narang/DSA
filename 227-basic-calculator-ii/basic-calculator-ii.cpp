@@ -4,13 +4,15 @@ public:
         int n = s.size(), ans = 0, idx = 0, prev;
 
         while(idx < n && s[idx] == ' ') idx++;
+
         while(idx < n && isdigit(s[idx])) {
             ans = ans * 10 + (s[idx++] -'0');
         }
-        cout<< ans <<" ";
         prev = ans;
+
         for(int i = idx; i < n; ){
             int curr = 0;
+            
             while(i < n && s[i] == ' ') i++;
             if(i >= n) break;
 
