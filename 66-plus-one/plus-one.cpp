@@ -1,21 +1,16 @@
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        stack<int> st;
-        vector<int> ans;
-        for(auto& num : digits){
-            st.push(num);
-        }
-
         int carry = 1;
-        while(!st.empty()){
-            int num = st.top() + carry;
-            st.pop();
+        for(int i = digits.size() - 1; i >= 0; i--){
+            int num = digits[i] + carry;
             carry = num / 10;
-            ans.push_back(num % 10);
+            digits[i] = num % 10;
         }
-        if(carry) ans.push_back(carry);
-        reverse(ans.begin(), ans.end());
+        if(!carry) return digits;
+        vector<int> ans;
+        ans.push_back(carry);
+        ans.insert(ans.end(), digits.begin(), digits.end());
         return ans;
     }
 };
