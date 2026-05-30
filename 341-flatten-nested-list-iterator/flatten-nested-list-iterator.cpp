@@ -18,19 +18,19 @@
 
 class NestedIterator {
 public:
-    stack<NestedInteger> st;
+    deque<NestedInteger> q;
     NestedIterator(vector<NestedInteger> &nestedList) {
         int n = nestedList.size();
-        for(int i = n - 1; i >= 0; i--){
-            st.push(nestedList[i]);
+        for(int i = 0; i < n; i++){
+            q.push_back(nestedList[i]);
         }
     }
     
     int next() {
         // Precuatinary Check, ATQ function won't be called if stack is empty 
-        if(!st.empty()){
-            int num = st.top().getInteger();
-            st.pop();
+        if(!q.empty()){
+            int num = q.front().getInteger();
+            q.pop_front();
             return num;
         }
         return -1;
@@ -38,16 +38,16 @@ public:
     
     bool hasNext() {
         // If list on top, open it first (in reverse)
-        while(!st.empty() && !st.top().isInteger()){
-            auto v = st.top().getList();
-            st.pop();
+        while(!q.empty() && !q.front().isInteger()){
+            auto v = q.front().getList();
+            q.pop_front();
             int ls = v.size();
-            for(int i = ls-1; i>=0; i--){
-                st.push(v[i]);
+            for(int i = ls-1; i >= 0; i--){
+                q.push_front(v[i]);
             }
         }
         // Return true if stack not empty & integer on top
-        if(!st.empty() && st.top().isInteger()){
+        if(!q.empty() && q.front().isInteger()){
             return true;
         }
         return false;
