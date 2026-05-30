@@ -18,12 +18,13 @@
 
 class NestedIterator {
 public:
-    queue<int> flat;
+    vector<int> flat;
+    int idx = 0;
 
     void dfs(vector<NestedInteger>& List){
         for(auto& v : List){
             if(v.isInteger()){
-                flat.push(v.getInteger());
+                flat.push_back(v.getInteger());
             }
             else{
                 dfs(v.getList());
@@ -35,14 +36,11 @@ public:
     }
     
     int next() {
-        int num = flat.front();
-        flat.pop();
-        return num;
+        return flat[idx++];
     }
     
     bool hasNext() {
-        if(!flat.empty()) return true;
-        return false;
+        return idx < flat.size();
     }
 };
 
