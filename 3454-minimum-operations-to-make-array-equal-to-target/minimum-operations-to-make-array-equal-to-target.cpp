@@ -1,25 +1,26 @@
 class Solution {
 public:
     long long minimumOperations(vector<int>& nums, vector<int>& target) {
-        int n = nums.size();
-        vector<int> diff(n);
-        
-        for (int i = 0; i < n; i++)
-            diff[i]=(target[i] - nums[i]);
+        int n =nums.size();
 
-        long long ans = abs(diff[0]);
-
-       for(int i = 1; i < n; i++){
-            if(diff[i] > 0){
-                if(diff[i] > diff[i-1]) // Need to build Up
-                    ans += diff[i] - max(0, diff[i-1]);
-            }
-            else if(diff[i] < 0){
-                if(diff[i-1] > diff[i])  // Need to build Down
-                    ans += min(0, diff[i-1]) - diff[i];
-            }
+        for(int i = 0; i < n; i++){
+            target[i] = target[i] - nums[i];
         }
 
+        long long ans = abs(target[0]);
+        
+        for(int i = 1; i < n; i++){
+            if(target[i] < 0){
+                if(target[i] < target[i-1]){
+                    ans +=  min(target[i-1], 0) - target[i];
+                }
+            }
+            if(target[i] > 0){
+                if(target[i] > target[i-1]){
+                    ans += target[i] - max(target[i-1], 0);
+                }        
+            }
+        }
         return ans;
     }
 };
