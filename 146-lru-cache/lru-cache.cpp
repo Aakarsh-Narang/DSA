@@ -48,6 +48,7 @@ public:
         temp->prev->next = temp->next;
 
         mp.erase(key);
+        delete temp;
     }
     
     int get(int key) {
@@ -59,7 +60,7 @@ public:
             deleteNode(temp);
             addNode(key, val);
 
-            return temp->value;
+            return mp[key]->value;
         }
 
         return -1;   
