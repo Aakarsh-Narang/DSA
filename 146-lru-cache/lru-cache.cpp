@@ -28,15 +28,13 @@ public:
     }
 
     // Adds a node to the Head  (Head -- 1st Node -- ..... -- Tail)
-    void addNode(int key, int val){
-        Node* temp = new Node(key, val);
-
+    void addNode(Node* temp){
         temp->next = head->next;
         head->next->prev = temp;
         head->next = temp;
         temp->prev = head;
 
-        mp[key] = temp;
+        mp[temp->key] = temp;
         if(mp.size() > cap) 
             deleteNode(tail->prev); // Least Recently used
     }
@@ -48,7 +46,6 @@ public:
         temp->prev->next = temp->next;
 
         mp.erase(key);
-        delete temp;
     }
     
     int get(int key) {
@@ -58,7 +55,7 @@ public:
 
             // Maintain Recency
             deleteNode(temp);
-            addNode(key, val);
+            addNode(temp);
 
             return mp[key]->value;
         }
@@ -73,7 +70,8 @@ public:
             get(key);
         }
         else{
-            addNode(key, value);
+            Node* temp = new Node(key, value);
+            addNode(temp);
         }
     }
 };
