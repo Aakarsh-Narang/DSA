@@ -4,15 +4,15 @@ public:
         sort(asteroids.begin(), asteroids.end());
         unsigned long long totalMass = mass;
 
-        for(int i = 0; i < asteroids.size(); i++){
-            if(totalMass >= asteroids[i]){
-                totalMass += asteroids[i];
+        for(auto& ast : asteroids){
+            if(totalMass >= ast){
+                totalMass += ast;
             }
             else{
                 return false;
             }
         }
-        
+
         return true;
     }
 };
