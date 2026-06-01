@@ -35,17 +35,17 @@ public:
         temp->prev = head;
 
         mp[temp->key] = temp;
-        if(mp.size() > cap) 
-            deleteNode(tail->prev); // Least Recently used
+
+        if(mp.size() > cap){
+            auto it = tail->prev;
+            mp.erase(it->key);
+            deleteNode(it); // Least Recently used
+        } 
     }
 
     void deleteNode(Node* temp){
-        int key = temp->key;
-
         temp->next->prev = temp->prev;
         temp->prev->next = temp->next;
-
-        mp.erase(key);
     }
     
     int get(int key) {
@@ -57,7 +57,7 @@ public:
             deleteNode(temp);
             addNode(temp);
 
-            return mp[key]->value;
+            return val;
         }
 
         return -1;   
