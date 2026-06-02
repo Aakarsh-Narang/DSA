@@ -1,24 +1,24 @@
 class Solution {
 public:
     int longestValidParentheses(string s) {
+        int maxLen = 0, n = s.size();
         stack<int> st;
-        st.push(-1);
-        int maxLen = 0;
+        vector<int> dp(n+1, 0);
 
         for(int i = 0; i < s.size(); i++){
             char ch = s[i];
-            if(ch == '(') st.push(i);
+            if(ch == '(') st.push(i+1);
             else{
-                // Remove the matching or boundary, if matching exits well and good, else it will serve as new boundary
-                st.pop();
-                if(st.empty()){
-                    st.push(i);
-                }
+                if(st.empty()) dp[i+1] = 0;
                 else{
-                    maxLen = max(maxLen, i - st.top());
+                    int lastIdx = st.top();
+                    st.pop();
+                    dp[i+1] = dp[lastIdx-1] + (i-lastIdx+2);  
+                    // cout << i << " "<<lastIdx-1 << " " <<dp[lastIdx] << " " << dp[lastIdx+1]<<endl;
                 }
             }
         }
-        return maxLen;
+
+        return *max_element(dp.begin(), dp.end());
     }
 };
