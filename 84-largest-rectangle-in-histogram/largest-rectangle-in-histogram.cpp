@@ -9,10 +9,12 @@ public:
                 int idx = st.top();
                 st.pop();
 
+                // Stack in monotonically increasing, so top would always be the boundary
                 int left = st.empty() ? -1 : st.top();
+                // Current elements kill the expansion of the prev cell, so it is it's right boundary
                 int width = i - left - 1;
-                int area = heights[idx] * width;
-                ans = max(ans, area);
+
+                ans = max(ans, heights[idx] * width);
             }
             st.push(i);
         }
@@ -24,8 +26,8 @@ public:
 
             int left = st.empty() ? -1 : st.top();
             int width = n - left - 1;
-            int area = heights[idx] * width;
-            ans = max(ans, area);
+          
+            ans = max(ans, heights[idx] * width);
         }
         
         return ans;
