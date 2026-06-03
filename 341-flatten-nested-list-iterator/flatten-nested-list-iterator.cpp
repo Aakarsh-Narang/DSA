@@ -18,29 +18,30 @@
 
 class NestedIterator {
 public:
-    vector<int> flat;
-    int idx = 0;
 
-    void dfs(vector<NestedInteger>& List){
-        for(auto& v : List){
-            if(v.isInteger()){
-                flat.push_back(v.getInteger());
-            }
-            else{
-                dfs(v.getList());
+    vector<int> ans;
+    int idx = 0, sz;
+
+        void dfs(vector<NestedInteger>& nestedList){
+            for(auto v : nestedList){
+                if(v.isInteger())
+                    ans.push_back(v.getInteger());
+                else
+                    dfs(v.getList());
             }
         }
-    }
+
     NestedIterator(vector<NestedInteger> &nestedList) {
-        dfs(nestedList);   
+        dfs(nestedList);
+        sz = ans.size();
     }
     
     int next() {
-        return flat[idx++];
+        return ans[idx++];
     }
     
     bool hasNext() {
-        return idx < flat.size();
+        return idx < sz;
     }
 };
 
