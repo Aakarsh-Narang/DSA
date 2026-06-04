@@ -10,26 +10,28 @@ public:
         }
 
         while(idx < n){
-            int nextOpen = s.find('(', idx);
-            if(nextOpen != string::npos)
-                ans += s.substr(idx, nextOpen-idx);  // Excluding (
-
-            int nextClose = s.find(')', idx);
-            if(nextClose != string::npos){
-                string key = s.substr(nextOpen+1, nextClose - nextOpen - 1);  // Excluding )
-              
-                if(mp.count(key))  ans += mp[key];
-                else ans += "?";
-
-                idx = nextClose + 1;  // Move Index in chunks
+            // Build Normal Text
+            while(idx < n && s[idx] != '('){
+                ans += s[idx++];
             }
-            else{   
-                // No closing brackets left in string, so add entire string and get done with
-                ans += s.substr(idx);
-                idx = n;
+            idx++;  // Avoid '('
+
+            // Build Key
+            string key = "";
+            while(idx < n && s[idx] != ')'){
+                key += s[idx++];
             }
-                
+
+            if(mp.count(key)){
+                ans += mp[key];
+            }
+            else {
+                if(idx < n)
+                    ans += "?";
+            }
+            idx++;  // Avoid ')'
         }
+
         return ans;
     }
 };
