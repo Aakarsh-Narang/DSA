@@ -10,15 +10,11 @@ public:
             maxi = max(maxi, height[i]);
         }
 
+        int ans = 0;
         maxi = 0;
         for(int i = n-1; i>= 0; i--){
-            next[i] = maxi;
+            ans += max(0, min(prev[i], maxi) - height[i]);
             maxi = max(maxi, height[i]);
-        }
-
-        int ans = 0;
-        for(int i = 0; i < n; i++){
-            ans += max(0, min(prev[i], next[i]) - height[i]);
         }
 
         return ans;
