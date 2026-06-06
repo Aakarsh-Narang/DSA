@@ -5,19 +5,19 @@ public:
 
         while(left < right){
             if(height[left] <= height[right]){
+                ans += max(0, leftMax - height[left]);
                 leftMax = max(leftMax, height[left]);
-                ans += leftMax - height[left];
 
                 left++;
             }
             else{
+                ans += max(0, rightMax - height[right]);
                 rightMax = max(rightMax, height[right]);
-                ans += rightMax - height[right];
-
+                
                 right--;
             }
         }
-        
+
         return ans;
     }
 };
