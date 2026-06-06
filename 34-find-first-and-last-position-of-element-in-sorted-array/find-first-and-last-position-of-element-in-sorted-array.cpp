@@ -19,7 +19,7 @@ public:
         }
         return fi;
     }
-    int secondOcc(vector<int>& nums, int target){
+    int lastOcc(vector<int>& nums, int target){
         int li = -1, lo = 0, hi = nums.size()-1;
 
         while(lo <= hi){
@@ -39,6 +39,6 @@ public:
         return li;
     }
     vector<int> searchRange(vector<int>& nums, int target) {
-        return {firstOcc(nums, target), secondOcc(nums, target)};
+        return {firstOcc(nums, target), lastOcc(nums, target)};
     }
 };
