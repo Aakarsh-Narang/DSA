@@ -21,14 +21,14 @@ public:
             int in  = s[i] - 'a';
 
             // Remove outgoing character
-            if(match[out] == target[out]) misMatch++;
+            if(match[out] == target[out]) misMatch++;  // Matches before update, therefore will now break
             match[out]--;
-            if(match[out] == target[out]) misMatch--;
+            if(match[out] == target[out]) misMatch--;  // Matches after update
 
             // Add incoming character
-            if(match[in] == target[in]) misMatch++;
+            if(match[in] == target[in]) misMatch++;  // Matches before update, therefore will now break
             match[in]++;
-            if(match[in] == target[in]) misMatch--;
+            if(match[in] == target[in]) misMatch--;  // Matches after update
 
             if(misMatch == 0) starts.push_back(i-l+1);
         }
