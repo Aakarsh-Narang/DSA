@@ -51,3 +51,19 @@ This repository serves as a record of my consistency, learning, and growth as a 
 ---
 
 > “Consistency and curiosity build great problem solvers.”
+
+<!---LeetCode Topics Start-->
+# LeetCode Topics
+## Array
+|  |
+| ------- |
+| [0054-spiral-matrix](https://github.com/Aakarsh-Narang/DSA/tree/master/0054-spiral-matrix) |
+## Matrix
+|  |
+| ------- |
+| [0054-spiral-matrix](https://github.com/Aakarsh-Narang/DSA/tree/master/0054-spiral-matrix) |
+## Simulation
+|  |
+| ------- |
+| [0054-spiral-matrix](https://github.com/Aakarsh-Narang/DSA/tree/master/0054-spiral-matrix) |
+<!---LeetCode Topics End-->
