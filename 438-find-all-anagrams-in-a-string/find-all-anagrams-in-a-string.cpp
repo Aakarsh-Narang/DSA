@@ -30,7 +30,6 @@ public:
             match[in]++;
             if(match[in] == target[in]) misMatch--;
 
-            cout << misMatch << endl;
             if(misMatch == 0) starts.push_back(i-l+1);
         }
 
