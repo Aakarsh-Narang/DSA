@@ -4,7 +4,7 @@ public:
         int maxSoFar = nums[0], maxSum = nums[0];
 
         for(int i = 1; i < nums.size(); i++){
-            if(nums[i] > maxSoFar + nums[i]){
+            if(maxSoFar < 0){  // nums[i] > maxSoFar + nums[i]
                 maxSoFar = nums[i];
             }
             else{
