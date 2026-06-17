@@ -1,13 +1,13 @@
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<int> indegree(numCourses), ans;
         vector<vector<int>> adj(numCourses);
+        vector<int> indegree(numCourses, 0), ans;
         queue<int> q;
-
+        
         for(auto& e : prerequisites){
-            indegree[e[0]]++;
             adj[e[1]].push_back(e[0]);
+            indegree[e[0]]++;
         }
 
         for(int i = 0; i < numCourses; i++){
@@ -22,17 +22,16 @@ public:
 
             ans.push_back(node);
 
-            for(auto& nbr :adj[node]){
+            for(auto& nbr : adj[node]){
                 indegree[nbr]--;
                 if(indegree[nbr] == 0){
                     q.push(nbr);
                 }
             }
         }
+        if(ans.size() != numCourses)
+            return {};
 
-        if(ans.size() == numCourses)
-            return ans;
-
-        return {};
+        return ans;
     }
 };
