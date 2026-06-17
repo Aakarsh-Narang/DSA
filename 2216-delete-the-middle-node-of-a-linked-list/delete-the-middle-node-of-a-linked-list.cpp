@@ -33,9 +33,10 @@ public:
 
         int target = (len)/2;
         while(temp){
-            if(cnt+1 == target) break;
-
             cnt++;
+
+            if(cnt == target) break;
+           
             temp = temp->next;
         }
 
