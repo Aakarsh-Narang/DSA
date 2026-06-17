@@ -10,72 +10,27 @@
  */
 class Solution {
 public:
-    int getLen(ListNode* head){
+    void buildStack(ListNode* head, stack<int>& st){
         ListNode* temp = head;
-        int len = 0;
-
+    
         while(temp){
-            len++;
+            st.push(temp->val);
             temp = temp->next;
         }
 
-        return len;
     }
-
-    ListNode* reverseLL(ListNode* head){
-        ListNode* curr = head;
-        ListNode* prev = NULL;
-        ListNode* next = curr->next;
-
-        while(next){
-            curr->next = prev;
-            prev = curr;
-            curr = next;
-            next = next->next;
-        }
-        curr->next = prev;
-
-        return curr;
-    }
-
-    ListNode* copyLL(ListNode* head){
-        ListNode* newHead = new ListNode(head->val);
-        ListNode* prev = newHead;
-        head = head->next;
-        
-
-        while(head){
-            ListNode* newHead = new ListNode(head->val);
-            prev->next = newHead;
-            prev = newHead;
-            head = head->next;
-        }
-        
-        return newHead;
-    }
-
-    void printLL(ListNode* temp){
-        while(temp){
-            cout << temp->val << " ";
-            temp = temp->next;
-        }
-        cout<<endl;
-    }
-
+    
     int pairSum(ListNode* head) {
-        ListNode* newHead = reverseLL(copyLL(head));
-
-        // printLL(newHead);
-        // printLL(head);
-        
-        ListNode* temp1 = head;
-        ListNode* temp2 = newHead;
         int ans = 0;
+        stack<int> st;
+        buildStack(head, st);
 
-        while(temp1 && temp2){
-            ans = max(ans, temp1->val + temp2->val);
-            temp1 = temp1->next;
-            temp2 = temp2->next;
+        ListNode* temp = head;
+
+        while(temp){
+            ans = max(ans, (temp->val + st.top()));
+            st.pop();
+            temp = temp->next;
         }
 
         return ans;
