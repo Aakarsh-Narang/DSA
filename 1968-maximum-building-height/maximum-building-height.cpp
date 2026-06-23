@@ -9,6 +9,8 @@ public:
         }
 
         int m = r.size();
+
+        // Decide what maximum height can a restricted building actually reach
         for(int i = 1; i < m; i++){
             int dist = r[i][0] - r[i-1][0];
             r[i][1] = min(r[i][1], r[i-1][1] + dist);
@@ -19,6 +21,7 @@ public:
             r[i][1] = min(r[i][1], r[i+1][1] + dist);
         }
 
+        // Find max heights bw the restricted buildings
         int ans = 0;
         for(int i = 0; i < m-1; i++){
             int dist = r[i+1][0] - r[i][0];
