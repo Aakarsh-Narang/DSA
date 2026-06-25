@@ -1,78 +1,40 @@
 class LRUCache {
 public:
-    struct Node{
-        Node* prev;
-        Node* next;
-        int key, value;
-
-        Node(int key, int value){
-            this->key = key;
-            this->value = value;
-            prev = next = NULL;
-        }
-    };
-
-    // Global variables
     int cap;
-    Node* head; // Most Recently used
-    Node* tail; // Least Recently used
-    unordered_map<int, Node*> mp;  // Map to store addresses of the Keys
+    list<pair<int, int>> l;
+    unordered_map<int, list<pair<int, int>>::iterator> mp;
 
     LRUCache(int capacity) {
         cap = capacity;
-        head = new Node(-1, -1);
-        tail = new Node(-1, -1);
-        // Initial Connection
-        head->next = tail;
-        tail->prev = head;
-    }
-
-    // Adds a node to the Head  (Head -- 1st Node -- ..... -- Tail)
-    void addNode(Node* temp){
-        temp->next = head->next;
-        head->next->prev = temp;
-        head->next = temp;
-        temp->prev = head;
-
-        mp[temp->key] = temp;
-
-        if(mp.size() > cap){
-            auto it = tail->prev;
-            mp.erase(it->key);
-            deleteNode(it); // Least Recently used
-        } 
-    }
-
-    void deleteNode(Node* temp){
-        temp->next->prev = temp->prev;
-        temp->prev->next = temp->next;
     }
     
-    int get(int key) {
+    int get(int key){
         if(mp.count(key)){
-            Node* temp = mp[key];
-            int val = temp->value;
-
-            // Maintain Recency
-            deleteNode(temp);
-            addNode(temp);
-
+            int val = mp[key]->second;
+            l.erase(mp[key]);
+            l.push_front({key, val});
+            mp[key] = l.begin();
             return val;
         }
-
-        return -1;   
+        return -1;
     }
     
-    void put(int key, int value) {
-        if(mp.count(key)){
-            mp[key]->value = value;
-            // Maintain Recency
-            get(key);
+    void put(int key, int value){
+        if(!mp.count(key)){
+            l.push_front({key, value});
+            mp[key] = l.begin();
+
+            if(mp.size() > cap){
+                auto last = mp[l.back().first];
+                mp.erase(l.back().first);
+                l.pop_back();
+            }
+
+            return;
         }
-        else{
-            Node* temp = new Node(key, value);
-            addNode(temp);
-        }
+
+        get(key);
+        mp[key]->second = value;
     }
 };
 
