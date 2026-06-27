@@ -15,12 +15,29 @@ public:
 
         return dp[i][j] = takeFrom1 || takeFrom2;
     }
+
+    // Tabulation
     bool isInterleave(string s1, string s2, string s3) {
         int m = s1.size(), n = s2.size();
         if(s3.size() != m+n) return false;
 
-        vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
+        vector<vector<bool>> dp(m+1, vector<bool>(n+1, false));
+        dp[m][n] = true;
 
-        return solve(s1, s2, s3, 0, 0, dp);
+        for(int i = m; i >= 0; i--){
+            for(int j = n; j>=0; j--){
+                if(i == m && j == n) continue;
+
+                bool takeFrom1 = 0, takeFrom2 = 0;
+                if(i < m && s1[i] == s3[i+j])
+                    takeFrom1 = dp[i+1][j];
+                if(j < n && s2[j] == s3[i+j])
+                    takeFrom2 = dp[i][j+1];
+
+                dp[i][j] = takeFrom1 || takeFrom2;
+            }
+        }
+
+        return dp[0][0];
     }
 };
