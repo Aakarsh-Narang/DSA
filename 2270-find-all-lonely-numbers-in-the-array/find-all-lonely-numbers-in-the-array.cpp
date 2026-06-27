@@ -5,9 +5,9 @@ public:
         vector<int> ans;
         for(auto& n : nums) mp[n]++;
 
-        for(int i = 0; i < nums.size(); i++){
-            if(!mp.count(nums[i]-1) && !mp.count(nums[i]+1) && mp[nums[i]] == 1)
-                ans.push_back(nums[i]);
+        for(auto& n : nums){
+            if(!mp.count(n-1) && !mp.count(n+1) && mp[n] == 1)
+                ans.push_back(n);
         }
 
         return ans;
