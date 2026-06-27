@@ -6,7 +6,7 @@ public:
         for(auto& n : nums) mp[n]++;
 
         for(auto& n : nums){
-            if(!mp.count(n-1) && !mp.count(n+1) && mp[n] == 1)
+            if(mp[n-1] == 0 && mp[n+1] == 0 && mp[n] == 1)
                 ans.push_back(n);
         }
 
