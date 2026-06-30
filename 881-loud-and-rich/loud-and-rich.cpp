@@ -1,46 +1,32 @@
 class Solution {
 public:
-    vector<int> toposort(vector<vector<int>>& adj, vector<int>& quiet){
+    int toposort(vector<vector<int>>& adj, vector<int>& quiet, vector<int>& ans, int node){
         int n = quiet.size();
-        vector<int> indeg(n, 0), ans(n);
-        iota(ans.begin(), ans.end(), 0);
+        if(ans[node] != -1) return ans[node];
+        ans[node] = node;
 
-        for(auto& v : adj){
-            for(auto& nbr : v){
-                indeg[nbr]++;
-            }
+        for(auto& nbr : adj[node]){
+            int curr = toposort(adj, quiet, ans, nbr);
+            if(quiet[ans[node]] > quiet[curr])
+                ans[node] = curr;
         }
 
-        queue<int> q;
-        // Push initial elements with indeg == 0
-        for(int i = 0; i < n; i++){
-            if(indeg[i] == 0){
-                q.push(i);
-            }
-        }
-
-        // Expand to rest of the graph from the initail nodes
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-
-            for(auto& nbr : adj[node]){
-                if(quiet[ans[node]] < quiet[ans[nbr]]) ans[nbr] = ans[node];
-                indeg[nbr]--;
-                if(!indeg[nbr]) q.push(nbr);
-            }
-        }
-
-        return ans;
+        return ans[node];
     }
     vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& quiet) {
         int n = quiet.size();
         vector<vector<int>> adj(n);
+        vector<int> ans(n, -1);
 
         for(auto& e : richer){
-            adj[e[0]].push_back(e[1]);
+            adj[e[1]].push_back(e[0]);  // edges reversed : Poorer -> Richer
         }
 
-        return toposort(adj, quiet);
+        for(int i = 0; i < n; i++){
+            if(ans[i] == -1)
+                toposort(adj, quiet, ans, i);
+        }
+
+        return ans;
     }
 };
