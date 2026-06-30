@@ -4,7 +4,7 @@ public:
         int n = quiet.size();
         vector<int> indeg(n, 0), ans(n);
         iota(ans.begin(), ans.end(), 0);
-        
+
         for(auto& v : adj){
             for(auto& nbr : v){
                 indeg[nbr]++;
@@ -14,7 +14,6 @@ public:
         queue<int> q;
         // Push initial elements with indeg == 0
         for(int i = 0; i < n; i++){
-            // cout << indeg[i]<<" ";
             if(indeg[i] == 0){
                 q.push(i);
             }
@@ -30,7 +29,6 @@ public:
                 indeg[nbr]--;
                 if(!indeg[nbr]) q.push(nbr);
             }
-
         }
 
         return ans;
