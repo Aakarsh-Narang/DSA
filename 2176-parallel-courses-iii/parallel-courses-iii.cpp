@@ -22,7 +22,7 @@ public:
             indegree[e[1]-1]++;
         }
 
-        for(int i = 0; i < n; i++){
+        for(int i = 0; i < n; ++i){
             if(!indegree[i]){
                 ans = max(ans, dfs(i, n, adj, time, dp));
             }
