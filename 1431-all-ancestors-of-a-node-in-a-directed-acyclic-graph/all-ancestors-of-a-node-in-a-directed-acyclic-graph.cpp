@@ -1,46 +1,68 @@
 class Solution {
 public:
     vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
-        vector<vector<int>> adj(n);
+        // Create adjacency list
+        vector<vector<int>> adjacencyList(n);
+
+        // Fill the adjacency list and indegree array based on the edges
         vector<int> indegree(n, 0);
-
-        for (auto &e : edges) {
-            adj[e[0]].push_back(e[1]);
-            indegree[e[1]]++;
+        for (auto& edge : edges) {
+            int from = edge[0];
+            int to = edge[1];
+            adjacencyList[from].push_back(to);
+            indegree[to]++;
         }
 
-        queue<int> q;
-        for (int i = 0; i < n; i++) {
-            if (indegree[i] == 0)
-                q.push(i);
-        }
-
-        vector<unordered_set<int>> anc(n);
-
-        while (!q.empty()) {
-            int node = q.front();
-            q.pop();
-
-            for (auto &nbr : adj[node]) {
-
-                // node itself is an ancestor
-                anc[nbr].insert(node);
-
-                // all ancestors of node are also ancestors of nbr
-                anc[nbr].insert(anc[node].begin(), anc[node].end());
-
-                if (--indegree[nbr] == 0)
-                    q.push(nbr);
+        queue<int> nodesWithZeroIndegree;
+        for (int i = 0; i < indegree.size(); i++) {
+            if (indegree[i] == 0) {
+                nodesWithZeroIndegree.push(i);
             }
         }
 
-        vector<vector<int>> ans(n);
+        // List to store the topological order of nodes
+        vector<int> topologicalOrder;
+        while (!nodesWithZeroIndegree.empty()) {
+            int currentNode = nodesWithZeroIndegree.front();
+            nodesWithZeroIndegree.pop();
+            topologicalOrder.push_back(currentNode);
 
-        for (int i = 0; i < n; i++) {
-            ans[i] = vector<int>(anc[i].begin(), anc[i].end());
-            sort(ans[i].begin(), ans[i].end());
+            // Reduce indegree of neighboring nodes and add them to the queue
+            // if they have no more incoming edges
+            for (int neighbor : adjacencyList[currentNode]) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    nodesWithZeroIndegree.push(neighbor);
+                }
+            }
         }
 
-        return ans;
+        // Initialize the result list and set list for storing ancestors
+        vector<vector<int>> ancestorsList(n);
+        vector<unordered_set<int>> ancestorsSetList(n);
+
+        // Fill the set list with ancestors using the topological order
+        for (int node : topologicalOrder) {
+            for (int neighbor : adjacencyList[node]) {
+                // Add immediate parent, and other ancestors
+                ancestorsSetList[neighbor].insert(node);
+                ancestorsSetList[neighbor].insert(
+                    ancestorsSetList[node].begin(),
+                    ancestorsSetList[node].end());
+            }
+        }
+
+        // Convert sets to lists and sort them
+        for (int i = 0; i < ancestorsList.size(); i++) {
+            for (int node = 0; node < n; node++) {
+                if (node == i) continue;
+                if (ancestorsSetList[i].find(node) !=
+                    ancestorsSetList[i].end()) {
+                    ancestorsList[i].push_back(node);
+                }
+            }
+        }
+
+        return ancestorsList;
     }
 };
