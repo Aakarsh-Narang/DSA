@@ -14,7 +14,7 @@ public:
         }
 
         queue<int> nodesWithZeroIndegree;
-        for (int i = 0; i < indegree.size(); i++) {
+        for (int i = 0; i < indegree.size(); ++i) {
             if (indegree[i] == 0) {
                 nodesWithZeroIndegree.push(i);
             }
@@ -53,7 +53,7 @@ public:
         }
 
         // Convert sets to lists and sort them
-        for (int i = 0; i < ancestorsList.size(); i++) {
+        for (int i = 0; i < ancestorsList.size(); ++i) {
             for (int ancestor : ancestorsSetList[i]) {
                 ancestorsList[i].push_back(ancestor);
             }
