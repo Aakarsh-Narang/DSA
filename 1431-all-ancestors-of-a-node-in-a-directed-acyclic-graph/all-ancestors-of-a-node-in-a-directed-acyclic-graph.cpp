@@ -54,13 +54,10 @@ public:
 
         // Convert sets to lists and sort them
         for (int i = 0; i < ancestorsList.size(); i++) {
-            for (int node = 0; node < n; node++) {
-                if (node == i) continue;
-                if (ancestorsSetList[i].find(node) !=
-                    ancestorsSetList[i].end()) {
-                    ancestorsList[i].push_back(node);
-                }
+            for (int ancestor : ancestorsSetList[i]) {
+                ancestorsList[i].push_back(ancestor);
             }
+            sort(ancestorsList[i].begin(), ancestorsList[i].end());
         }
 
         return ancestorsList;
