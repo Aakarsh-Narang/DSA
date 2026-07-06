@@ -12,7 +12,7 @@ public:
             auto [r, c] = q.front();
             q.pop();
 
-            for(int i = 0; i < 4; i++){
+            for(int i = 0; i < 4; ++i){
                 int nr = r + dir[i], nc = c + dir[i+1];
 
                 if(nr >= 0 && nr < m && nc >=0 && nc < n && grid2[nr][nc] == 1){
@@ -28,8 +28,8 @@ public:
     int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
         int m = grid1.size(), n = grid1[0].size(), ans = 0;
 
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
+        for(int i = 0; i < m; ++i){
+            for(int j = 0; j < n; ++j){
                 if(grid2[i][j] == 1){
                     if(expand(grid1, grid2, i, j)) ans++;
                 }
