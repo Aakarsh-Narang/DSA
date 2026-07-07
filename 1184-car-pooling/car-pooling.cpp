@@ -1,23 +1,20 @@
 class Solution {
 public:
     bool carPooling(vector<vector<int>>& trips, int capacity) {
-        sort(trips.begin(), trips.end(), [](vector<int>& a, vector<int>&b){
-            if(a[1] == b[1]) return a[2] > b[2];
-            return a[1] < b[1];
-        });
+        // As per the constraints : 0 <= fromi < toi <= 1000
+        vector<int> times(1001, 0);
+        int currSum = 0;
 
-        int curr = 0, n = trips.size();
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        for(auto& v : trips){
+            int people = v[0], from = v[1], to = v[2];
+            times[from] += people;
+            times[to] -= people;
+        }
 
-        for(int i = 0; i < n; i++){
-            while(!pq.empty() && pq.top().first <= trips[i][1]){
-                curr -= pq.top().second;
-                pq.pop();
-            }
-
-            curr += trips[i][0];
-            if(curr > capacity) return false;
-            pq.push({trips[i][2], trips[i][0]});
+        for(int i = 0; i < 1001; i++){
+            currSum += times[i];
+            if(currSum > capacity)
+                return false;
         }
 
         return true;
