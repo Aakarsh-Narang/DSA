@@ -6,9 +6,8 @@ public:
 
         // Building diff array as per queries
         for(int i = 0; i < k; i++){
-            auto q = queries[i];
-            diff[q[0]] += q[2];
-            diff[q[1] + 1] -= q[2];
+            diff[queries[i][0]] += queries[i][2];
+            diff[queries[i][1] + 1] -= queries[i][2];
         }
 
         // Updating nums array
