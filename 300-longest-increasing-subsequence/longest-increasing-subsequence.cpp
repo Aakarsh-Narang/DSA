@@ -14,12 +14,6 @@ public:
         }
         return ans;
     }
-    void printA(vector<int>& nums){
-        for(auto& n : nums){
-            cout << n << " ";
-        }
-        cout<<endl;
-    }
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
         vector<int> lis;
@@ -29,7 +23,6 @@ public:
             else{
                 lis[correctIdx(lis, nums[i])] = nums[i];
             }
-            // printA(lis);
         }
         return lis.size();
     }
