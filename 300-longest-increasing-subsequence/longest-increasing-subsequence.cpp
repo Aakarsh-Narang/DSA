@@ -1,22 +1,36 @@
 class Solution {
 public:
-    int solve(vector<int>& nums, vector<vector<int>>& dp, int idx, int prevIdx){
-        if(idx >= nums.size()) return 0;
-
-        if(dp[idx][prevIdx+1] != -1) return dp[idx][prevIdx+1];
-
-        int take = 0;
-        if(prevIdx == -1 || nums[prevIdx] < nums[idx]){
-            take = 1 + solve(nums, dp, idx+1, idx);
+    int correctIdx(vector<int>& lis, int target){
+        int ans = 0, lo = 0, hi = lis.size() - 1;
+        while(lo <= hi){
+            int mid = (hi - lo) / 2 + lo;
+            if(lis[mid] >= target){
+                ans = mid;
+                hi = mid - 1;
+            }
+            else{
+                lo = mid + 1;
+            }
         }
-        int notTake = solve(nums, dp, idx+1, prevIdx);
-
-        return dp[idx][prevIdx + 1] = max(take, notTake);
+        return ans;
     }
-    int lengthOfLIS(vector<int>& nums){
+    void printA(vector<int>& nums){
+        for(auto& n : nums){
+            cout << n << " ";
+        }
+        cout<<endl;
+    }
+    int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(n+1, -1));
-
-        return solve(nums, dp, 0, -1);
+        vector<int> lis;
+        lis.push_back(nums[0]);
+        for(int i = 1; i < n; i++){
+            if(nums[i] > lis.back()) lis.push_back(nums[i]);
+            else{
+                lis[correctIdx(lis, nums[i])] = nums[i];
+            }
+            // printA(lis);
+        }
+        return lis.size();
     }
 };
