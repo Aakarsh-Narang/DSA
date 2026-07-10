@@ -13,7 +13,7 @@ public:
 
         return dp[idx][prevIdx + 1] = max(take, notTake);
     }
-    int lengthOfLIS(vector<int>& nums) {
+    int lengthOfLIS(vector<int>& nums){
         int n = nums.size();
         vector<vector<int>> dp(n, vector<int>(n+1, -1));
 
