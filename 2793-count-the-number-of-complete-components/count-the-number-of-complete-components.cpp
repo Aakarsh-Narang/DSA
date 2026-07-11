@@ -19,17 +19,19 @@ public:
         
         vector<int> vis(n, 0);
         int cnt = 0;
+        
         for(int i = 0; i < n; i++){
             if(!vis[i]){
                 vector<int> nodes;
                 bool flg = 1;
+
                 dfs(i, nodes, adj, vis);
+
                 int totalNodes = nodes.size();
                 for(auto& n : nodes){
-                    // cout << n << " ";
                     if(adj[n].size() != totalNodes-1) flg = 0;
                 }
-                // cout<<endl;
+
                 if(flg) cnt++;
             }
         }
