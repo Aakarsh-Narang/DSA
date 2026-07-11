@@ -17,7 +17,7 @@ public:
     }
     
     int add(int val) {
-        if(pq.empty() || pq.size() < sz || val > pq.top()){
+        if(pq.size() < sz || val > pq.top()){
             pq.push(val);
         }
         while(pq.size() > sz) pq.pop();
