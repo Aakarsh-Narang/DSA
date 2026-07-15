@@ -5,7 +5,7 @@ public:
         int prefixSum = 0, ans = 0;
         mp[0] = -1;
         for(int i = 0; i < nums.size(); i++){
-            nums[i] == 0 ? prefixSum-- : prefixSum++;
+            prefixSum += nums[i] == 0 ? -1 : 1;
 
             if(mp.count(prefixSum))
                 ans = max(ans, i - mp[prefixSum]);
