@@ -16,14 +16,15 @@ public:
                 ans = min(ans, i - dq.front());
                 dq.pop_front();
             }
+            // |-> We pop smaller values bcz even if they become useful in future when prefixSum drops, they will still give longer lengths
 
             // Remove all larger prefixSum indices from the end, 
-            // they become useless when we find smaller values later
+            // they become useless when we have founnd smaller values now
             while(!dq.empty() && prefixSum[i] <= prefixSum[dq.back()]){
                 dq.pop_back();
             }
 
-            // Push current PrefixSum index at correct place
+            // Push current PrefixSum index at correct place (Do it at last to prevent self comparison)
             dq.push_back(i);
         }
         if(ans == INT_MAX) return -1;
