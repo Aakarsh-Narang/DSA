@@ -17,9 +17,6 @@ public:
                 dq.pop_front();
             }
 
-            // Bcz we skip the -1 index or 0 initial sum here (like we do in HashMap solutions)
-            if(prefixSum[i] >= k) ans = min(ans, i+1);
-
             // Remove all larger prefixSum indices from the end, 
             // they become useless when we find smaller values later
             while(!dq.empty() && prefixSum[i] <= prefixSum[dq.back()]){
