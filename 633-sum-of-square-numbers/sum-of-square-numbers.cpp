@@ -1,11 +1,12 @@
 class Solution {
 public:
     bool judgeSquareSum(int c) {
-        long long n = floor(sqrt(c));
+        long long n = floor(sqrt(c)), l = 0, r = n;
 
-        for(long long i = 0; i <= n; i++){
-            double b = sqrt(c - i*i);
-            if(b == (int)b) return true;
+        while(l <= r){
+            if(l*l + r*r == c) return true;
+            if(l*l + r*r > c) r--;
+            if(l*l + r*r < c) l++;
         }
         return false;
     }
