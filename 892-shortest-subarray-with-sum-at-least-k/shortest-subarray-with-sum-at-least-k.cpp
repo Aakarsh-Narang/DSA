@@ -3,17 +3,13 @@ public:
     int shortestSubarray(vector<int>& nums, int k) {
         int n = nums.size(), ans = INT_MAX;
 
-        if(n == 1) return nums[0] >= k ? 1 : -1;
         deque<int> dq;
-        vector<int> prefixSum(n, 0);
+        vector<int> prefixSum(n+1, 0);
 
-        // handling the 0th Index
-        prefixSum[0] = nums[0];
         dq.push_front(0);
-        if(prefixSum[0] >= k) ans = min(ans, 1);
 
-        for(int i = 1; i < n; i++){
-            prefixSum[i] = prefixSum[i-1] + nums[i]; 
+        for(int i = 1; i <= n; i++){
+            prefixSum[i] = prefixSum[i-1] + nums[i-1]; 
             
             // Find smallest possible subarray size
             while(!dq.empty() && prefixSum[i] - prefixSum[dq.front()] >= k){
