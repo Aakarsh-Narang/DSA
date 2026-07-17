@@ -13,7 +13,7 @@ public:
             sum = max(nums[i], sum + nums[i]);
             ans = max(ans, sum);
         }
-        if(wholeSum == minSum) return max(ans, *max_element(nums.begin(), nums.end()));
+        if(wholeSum == minSum) return ans;
         return max(wholeSum - minSum, ans);
     }
 };
