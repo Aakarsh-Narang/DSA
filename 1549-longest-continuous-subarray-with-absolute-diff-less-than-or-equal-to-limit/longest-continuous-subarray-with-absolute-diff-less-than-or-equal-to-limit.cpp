@@ -2,13 +2,14 @@ class Solution {
 public:
     int longestSubarray(vector<int>& nums, int limit) {
         multiset<int> st;
+        map<int, int> mp;
         int l = 0, r = 0, ans = 0, n = nums.size();
 
         while(r < n){
-            st.insert(nums[r]);
-            while(!st.empty() && abs(*st.begin() - *st.rbegin()) > limit){
-                // cout << *st.begin() <<" "<<*st.rbegin()<<endl;
-                st.erase(st.find(nums[l]));
+            mp[nums[r]]++;
+            while(mp.size() && abs(mp.begin()->first - mp.rbegin()->first) > limit){
+                mp[nums[l]]--;
+                if(mp[nums[l]] == 0) mp.erase(nums[l]);
                 l++;
             }
                 
