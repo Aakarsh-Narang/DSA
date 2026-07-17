@@ -1,7 +1,6 @@
 class Solution {
 public:
     int longestSubarray(vector<int>& nums, int limit) {
-        multiset<int> st;
         map<int, int> mp;
         int l = 0, r = 0, ans = 0, n = nums.size();
 
