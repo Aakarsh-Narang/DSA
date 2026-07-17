@@ -1,13 +1,9 @@
 class Solution {
 public:
     string customSortString(string order, string s) {
-        unordered_set<char> st;
         vector<int> freq(26, 0);
         string ans = "";
 
-        for(auto& ch : order){
-            st.insert(ch);
-        }
         for(int i = 0; i < s.size(); i++){
             freq[s[i] - 'a']++;
         }
@@ -16,11 +12,12 @@ public:
             if(freq[order[i] - 'a']){
                 string temp(freq[order[i] - 'a'], order[i]);
                 ans += temp;
+                freq[order[i] - 'a'] = 0;
             }
         }
 
         for(int i = 0; i < s.size(); i++){
-            if(st.find(s[i]) == st.end()){
+            if(freq[s[i] - 'a']){
                 ans += s[i];
             }
         }
