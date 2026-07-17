@@ -11,8 +11,11 @@ public:
         if(j+1 < p.size() && p[j+1] == '*'){
             ans = match(s, p, i, j+2, dp) || (currMatch && match(s, p, i+1, j, dp)); // Skip x* or use one x
         }
-        else{
-            ans = currMatch && match(s, p, i+1, j+1, dp);
+        else {
+            if (!currMatch)
+                return dp[i][j] = false;
+
+            ans = match(s, p, i+1, j+1, dp);
         }
 
         return dp[i][j] = ans;
