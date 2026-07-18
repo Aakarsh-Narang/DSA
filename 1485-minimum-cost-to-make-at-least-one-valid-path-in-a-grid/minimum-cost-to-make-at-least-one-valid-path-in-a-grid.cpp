@@ -23,6 +23,7 @@ public:
 
             // cout << r<< " "<<c<<endl;
             if(r == m-1 && c == n-1){
+                // print(dist);
                 return dist[r][c];
             }
 
