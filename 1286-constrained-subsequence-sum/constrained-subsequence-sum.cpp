@@ -13,7 +13,7 @@ public:
             while(!dq.empty() && (i - dq.front()) > k)
                 dq.pop_front();
 
-            dp[i] = nums[i] + max(0, dp[dq.front()]);
+            dp[i] = max(nums[i], nums[i] + dp[dq.front()]);  // Kadane's Algo
 
             // Pop all smaller Sums from the back
             while(!dq.empty() && dp[dq.back()] < dp[i]) 
