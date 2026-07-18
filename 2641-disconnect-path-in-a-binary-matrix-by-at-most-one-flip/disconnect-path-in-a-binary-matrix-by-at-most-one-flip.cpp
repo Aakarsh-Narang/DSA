@@ -22,10 +22,8 @@ public:
         vector<vector<bool>> vis(m, vector<bool>(n));
 
         bool firstVis = dfs(grid, vis, 0, 0);
-        
+
         if(!firstVis) return true;
-        grid[m-1][n-1] = 1;
-        grid[0][0] = 1;
         vis.assign(m, vector<bool>(n, 0));
 
         bool secondVis = dfs(grid, vis, 0, 0);
