@@ -1,57 +1,46 @@
 class Solution {
 public:
-    vector<int> parent, size;
+    // DFS to visit all stones in a connected component
+    void dfs(vector<vector<int>>& adjacencyList, vector<bool>& visited, int stone) {
+        visited[stone] = true;
 
-    void dsu(int n){
-        parent.resize(n);
-        iota(parent.begin(), parent.end(), 0);
-        size.resize(n);
-    }
-
-    int find(int a){
-        if(parent[a] == a){
-            return a;
-        }
-        return parent[a] = find(parent[a]);
-    }
-
-    void unite(int a, int b){
-        int rootA = find(a);
-        int rootB = find(b);
-
-        if(rootA == rootB) return;  // Already in same component
-
-        if(size[rootA] < size[rootB]){
-            parent[rootA] = rootB;
-            size[rootB] += size[rootA];
-        }
-        else{
-            parent[rootB] = rootA;
-            size[rootA] += size[rootB];
+        for (int neighbor : adjacencyList[stone]) {
+            if (!visited[neighbor]) {
+                dfs(adjacencyList, visited, neighbor);
+            }
         }
     }
-    
+
     int removeStones(vector<vector<int>>& stones) {
-        const int OFFSET = 10001;
-        dsu(20002);
+        int n = stones.size();
 
-        unordered_set<int> nodes;
+        // Adjacency list to store graph connections
+        vector<vector<int>> adjacencyList(n);
 
-        for (auto &stone : stones) {
-            int row = stone[0];
-            int col = stone[1] + OFFSET;  // As row & col numbers may overlap
-
-            unite(row, col);
-
-            nodes.insert(row);
-            nodes.insert(col);
+        // Build the graph: Connect stones that share the same row or column
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (stones[i][0] == stones[j][0] ||
+                    stones[i][1] == stones[j][1]) {
+                    adjacencyList[i].push_back(j);
+                    adjacencyList[j].push_back(i);
+                }
+            }
         }
 
-        int components = 0;
-        for(auto& n : nodes){
-            if(parent[n] == n) components++;
+        int numOfConnectedComponents = 0;
+        vector<bool> visited(n, false);
+
+        // Traverse all stones using DFS to count connected components
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(adjacencyList, visited, i);
+                numOfConnectedComponents++;
+            }
         }
 
-        return stones.size() - components;
+        // Maximum stones that can be removed is total stones minus number of
+        // connected components
+        return n - numOfConnectedComponents;
     }
 };
