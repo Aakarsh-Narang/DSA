@@ -30,6 +30,7 @@ public:
             size[rootA] += size[rootB];
         }
     }
+    
     int removeStones(vector<vector<int>>& stones) {
         const int OFFSET = 10001;
         dsu(20002);
