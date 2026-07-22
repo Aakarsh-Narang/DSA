@@ -9,7 +9,7 @@ public:
     }
 
     int find(int a) {
-        if (parent[a] == a)
+        if(parent[a] == a)
             return a;
 
         return parent[a] = find(parent[a]);
@@ -19,13 +19,14 @@ public:
         a = find(a);
         b = find(b);
 
-        if (a == b)
+        if(a == b)
             return;
 
-        if (size[a] > size[b]) {
+        if(size[a] > size[b]) {
             parent[b] = a;
             size[a] += size[b];
-        } else {
+        } 
+        else {
             parent[a] = b;
             size[b] += size[a];
         }
@@ -35,11 +36,11 @@ public:
         dsu(n);
         vector<bool> ans;
 
-        for (auto& req : requests) {
+        for(auto& req : requests) {
             int a = req[0], b = req[1];
 
             bool flg = true;
-            for (auto& res : restrictions) {
+            for(auto& res : restrictions) {
                 int x = res[0], y = res[1];
                 if ((find(a) == find(x) && find(b) == find(y)) ||
                     ((find(a) == find(y) && find(b) == find(x)))) {
@@ -48,7 +49,7 @@ public:
                     break;
                 }
             }
-            if (flg) {
+            if(flg){
                 ans.push_back(true);
                 unite(a, b);
             }
