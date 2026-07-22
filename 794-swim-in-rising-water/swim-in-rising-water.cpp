@@ -51,7 +51,7 @@ public:
             for(int k = 0; k < 4; k++){
                 int nr = r + dir[k], nc = c + dir[k+1];
                 if(nr >= 0 && nr < m && nc >= 0 && nc < n){
-                    if(vis[nr][nc]) unite(nr * n + nc, r * n + c);
+                    if(vis[nr][nc]) unite(nr * n + nc, r * n + c);  // Uniting nbr & curr cell
                 }
             }
             if(find(0) == find(finalCell)) return lvl;
