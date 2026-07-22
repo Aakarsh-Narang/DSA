@@ -1,60 +1,46 @@
 class Solution {
 public:
-    bool dfs(int node, int target, vector<vector<int>>& adj, vector<bool>& vis){
-        if(node == target) return true;
+    vector<int> parent, size;
 
-        vis[node] = 1;
-        for(auto& nbr : adj[node]){
-            if(!vis[nbr])
-                if(dfs(nbr, target, adj, vis))
-                    return true;
-        }
-
-        return false;
+    void dsu(int n){
+        parent.resize(n+1);
+        iota(parent.begin(), parent.end(), 0);
+        size.resize(n+1, 1);
     }
-    bool bfs(int node, int target, vector<vector<int>>& adj){
-        queue<int> q;
-        vector<bool> vis(adj.size()+1, false);
 
-        q.push(node);
-        vis[node] = 1;
+    int find(int a){
+        if(parent[a] == a) return a;
 
-        while(!q.empty()){
-            int curr = q.front();
-            q.pop();
-
-            for(auto& nbr : adj[curr]){
-                if(!vis[nbr]){
-                    vis[nbr] = 1;
-                    q.push(nbr);
-                }
-                if(nbr == target) return true;
-            }
-
-        }
-
-        return false;
+        return parent[a] =  find(parent[a]);
     }
+
+    void unite(int a, int b){
+        a = find(a);
+        b = find(b);
+
+        if(a == b) return;
+
+        if(size[a] > size[b]){
+            parent[b] = a;
+            size[a] += size[b];
+        }
+        else{
+            parent[a] = b;
+            size[b] += size[a];
+        }
+    }
+
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
-        int n = 0; 
-        for(auto& e : edges){ 
-            n = max({n, e[0], e[1]}); 
-        }
-        vector<int> ans;
-        vector<vector<int>> adj(n+1);
-        for (auto &e : edges) {
-            int u = e[0];
-            int v = e[1];
+        int n = edges.size(), idx;
+        dsu(n);
 
-            vector<bool> vis(n+1, false);
+        for(int i = 0; i < n; i++){
+            int a = edges[i][0], b = edges[i][1];
 
-            if (bfs(u, v, adj))
-                ans = e;
-
-            adj[u].push_back(v);
-            adj[v].push_back(u);
+            if(find(a) == find(b)) idx = i;
+            else unite(a, b);
         }
 
-        return ans;
+        return edges[idx];
     }
 };
