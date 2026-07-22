@@ -1,28 +1,60 @@
 class Solution {
 public:
+    vector<int> parent, size;
+    void dsu(int n){
+        parent.resize(n);
+        iota(parent.begin(), parent.end(), 0);
+        size.resize(n, 1);
+    }
+
+    int find(int a){
+        if(parent[a] == a) return a;
+        return parent[a] = find(parent[a]);
+    }
+
+    void unite(int a, int b){
+        int rootA = find(a);
+        int rootB = find(b);
+
+        if(rootA == rootB) return;
+
+        if(size[rootA] > size[rootB]){
+            parent[rootB] = rootA;
+            size[rootA] += size[rootB];
+        }
+        else{
+            parent[rootA] = rootB;
+            size[rootB] += size[rootA];
+        }
+    }
+
     int swimInWater(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size(), ans = grid[0][0];
+        int m = grid.size(), n = grid[0].size(), ans = 0, finalCell = m*n - 1;
         vector<vector<bool>> vis(m, vector<bool>(n, false));
         int dir[] = {-1, 0, 1, 0, -1};
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> pq;
+        vector<tuple<int, int, int>> cells;
 
-        pq.push({grid[0][0],0,0});
-        vis[0][0] = 1;
+        dsu(m*n);
 
-        while(!pq.empty()){
-            auto [lvl, r, c] = pq.top();
-            ans = max(ans, grid[r][c]);
-            pq.pop();
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                cells.push_back({grid[i][j], i, j});
+            }
+        }
 
-            if(r == m-1 && c == n-1) return ans;
+        sort(cells.begin(), cells.end());
 
-            for(int i = 0; i < 4; i++){
-                int nr = r + dir[i], nc = c + dir[i+1];
-                if(nr >= 0 && nr < m && nc >= 0 && nc < n && !vis[nr][nc]){
-                    pq.push({grid[nr][nc], nr, nc});
-                    vis[nr][nc] = 1;
+        for(int i = 0; i < cells.size(); i++){
+            auto [lvl, r, c] = cells[i];
+            vis[r][c] = 1;
+
+            for(int k = 0; k < 4; k++){
+                int nr = r + dir[k], nc = c + dir[k+1];
+                if(nr >= 0 && nr < m && nc >= 0 && nc < n){
+                    if(vis[nr][nc]) unite(nr * n + nc, r * n + c);
                 }
-            }  
+            }
+            if(find(0) == find(finalCell)) return lvl;
         }
 
         return -1;
