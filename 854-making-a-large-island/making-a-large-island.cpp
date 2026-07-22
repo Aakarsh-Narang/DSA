@@ -1,63 +1,100 @@
 class Solution {
 public:
-    int bfs(int r, int c, int label, vector<vector<int>>& grid){
-        int size = 0, m = grid.size(), n = grid[0].size();
-        queue<pair<int, int>> q;
-        vector<int> dir = {-1, 0, 1, 0, -1};
+    vector<int> parent, size;
+    void dsu(int n){
+        parent.resize(n);
+        iota(parent.begin(), parent.end(), 0);
+        size.resize(n, 1);
+    }
 
-        q.push({r, c});
-        grid[r][c] = label;
+    // Union by size
+    void unite(int a, int b){
+        int rootA = find(a);
+        int rootB = find(b);
 
-        while(!q.empty()){
-            auto [r, c] = q.front();
-            q.pop();
-            size++;
-
-            for(int i = 0; i < 4; i++){
-                int nr = r + dir[i], nc = c + dir[i+1];
-                if(nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] == 1){
-                    q.push({nr, nc});
-                    grid[nr][nc] = label;
-                }
-            }
+        if(rootA == rootB) return;
+        
+        if(size[rootA] > size[rootB]){
+            parent[rootB] = rootA;
+            size[rootA] += size[rootB];
         }
-        return size;
+        else{
+            parent[rootA] = rootB;
+            size[rootB] += size[rootA];
+        }
+    }
+
+    int find(int a){
+        if(parent[a] == a) return a;
+
+        return parent[a] = find(parent[a]);
     }
 
     int largestIsland(vector<vector<int>>& grid) {
-        int ans = 0, label = 2, m = grid.size(), n = grid[0].size();
-        unordered_map<int, int> mp;  // label -> size
+        int m = grid.size(), n = grid[0].size();
+        dsu(m * n);
+
         vector<int> dir = {-1, 0, 1, 0, -1};
 
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                if(grid[i][j] == 1){
-                    mp[label] = bfs(i, j, label, grid);
-                    ans = max(ans, mp[label]);
-                    label++;
+        // Build the DSU
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+
+                if(grid[i][j] == 0)
+                    continue;
+
+                int node = i * n + j;
+
+                // Up
+                if(i > 0 && grid[i-1][j] == 1)
+                    unite(node, (i-1) * n + j);
+
+                // Left
+                if(j > 0 && grid[i][j-1] == 1)
+                    unite(node, node - 1);
+            }
+        }
+
+        int ans = 0;
+
+        // Existing largest island (handles all-1s case)
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] == 1) {
+                    ans = max(ans, size[find(i * n + j)]);
                 }
             }
         }
 
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                if(grid[i][j] == 0){
-                    unordered_set<int> st;
-                    int newSize = 1;  // Current cell
-                    for(int k = 0; k < 4; k++){
-                        int nr = i + dir[k], nc = j + dir[k+1];
-                        if(nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] != 0){
-                            st.insert(grid[nr][nc]);
-                        }
-                    }   
+        // Try flipping every 0
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] == 1)
+                    continue;
 
-                    for(auto& island : st){
-                        newSize += mp[island];
+                unordered_set<int> roots;
+
+                for(int k = 0; k < 4; k++) {
+                    int nr = i + dir[k];
+                    int nc = j + dir[k + 1];
+
+                    if(nr >= 0 && nr < m &&
+                    nc >= 0 && nc < n &&
+                    grid[nr][nc] == 1)
+                    {
+                        roots.insert(find(nr * n + nc));
                     }
-                    ans = max(ans, newSize);
                 }
+
+                int cur = 1;
+
+                for(int root : roots)
+                    cur += size[root];
+
+                ans = max(ans, cur);
             }
         }
+
         return ans;
     }
 };
