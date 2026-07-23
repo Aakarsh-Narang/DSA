@@ -22,7 +22,7 @@ public:
                     temp[i] = ch;
                     if(st.count(temp)){
                         q.push({temp, cost+1});
-                        st.erase(temp);
+                        st.erase(temp);  // to avoid infinite looping
                     }
                 }
             }
