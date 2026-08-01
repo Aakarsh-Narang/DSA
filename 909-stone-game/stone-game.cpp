@@ -6,7 +6,7 @@ public:
 
         if(dp[i][j] != -1) return dp[i][j];
         int takeLeft, takeRight;
-        //Player 2 also has 2 choices so we chnage indices accordingly -> {takesleft, takesRight}
+        //Player 2 also has 2 choices so we change indices accordingly -> {takesleft, takesRight}
         takeLeft = nums[i] + min(play(nums, dp, i+2, j), play(nums, dp, i+1, j-1)); 
         takeRight = nums[j] + min(play(nums, dp, i+1, j-1), play(nums, dp, i, j-2));
         // min(Player2 Moves) -> Bcz player 2 will play the move that leaves smaller score for player1
