@@ -10,7 +10,7 @@ public:
         //Player 2 also has 2 choices so we chnage indices accordingly -> {takesleft, takesRight}
         takeLeft = nums[i] + min(play(nums, dp, i+2, j), play(nums, dp, i+1, j-1)); 
         takeRight = nums[j] + min(play(nums, dp, i+1, j-1), play(nums, dp, i, j-2));
-        // min(__,__) -> Bcz player 2 will play the move that leaves smaller score for player1
+        // min(Player2 Moves) -> Bcz player 2 will play the move that leaves smaller score for player1
 
         return dp[i][j] = max(takeLeft, takeRight);
     }
