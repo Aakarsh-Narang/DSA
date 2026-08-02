@@ -1,23 +1,31 @@
 class Solution {
 public:
-    unordered_map<int, unordered_map<int, int>> dp;
+    int solve(int index , int curr_sum , int & total_sum , vector<int>&stones , vector<vector<int>>&dp)
+    {
+      if(index < 0)
+        return abs(total_sum - 2 * curr_sum);
+      
+      if(dp[index][curr_sum] != -1)
+        return dp[index][curr_sum];
 
-    int solve(vector<int>& stones, int idx, int sum) {
-        if (idx == stones.size()) {
-            if (sum < 0) return INT_MAX;   // prune
-            return sum;
-        }
-
-        if (dp[idx].count(sum))
-            return dp[idx][sum];
-
-        int add = solve(stones, idx + 1, sum + stones[idx]);
-        int sub = solve(stones, idx + 1, sum - stones[idx]);
-
-        return dp[idx][sum] = min(add, sub);
+      int take = solve(index - 1 , curr_sum + stones[index] , total_sum, stones ,dp);
+      int nottake = solve(index - 1 , curr_sum , total_sum ,stones ,dp);
+      
+      return dp[index][curr_sum] = min(take,nottake);
     }
 
+
     int lastStoneWeightII(vector<int>& stones) {
-        return solve(stones, 0, 0);
+        
+        int n = stones.size();
+        int index = n-1;
+
+        int curr_sum = 0;
+        int total_sum = accumulate(stones.begin(),stones.end(),0);
+        
+        vector<vector<int>>dp(n,vector<int>(total_sum+1,-1));
+
+        return solve(index , curr_sum , total_sum ,stones,dp);
+
     }
 };
