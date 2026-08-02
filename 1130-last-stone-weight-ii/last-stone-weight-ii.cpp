@@ -16,15 +16,12 @@ public:
 
 
     int lastStoneWeightII(vector<int>& stones) {
-        int n = stones.size();
-        int index = n-1;
-
-        int currSum = 0;
+        int n = stones.size(), currSum = 0;
         int totalSum = accumulate(stones.begin(),stones.end(),0);
         
-        vector<vector<int>>dp(n,vector<int>(totalSum+1,-1));
+        vector<vector<int>>dp(n, vector<int>(totalSum+1, -1));
 
-        return solve(index , currSum , totalSum ,stones, dp);
+        return solve(n-1 , currSum , totalSum ,stones, dp);
 
     }
 };
