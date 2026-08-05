@@ -1,27 +1,23 @@
 class Solution {
 public:
-    int shortest_path(int r, int c, vector<vector<int>>& grid, vector<vector<int>>& dp) {
-        int n = grid[0].size(), m = grid.size();
-        if(c < 0 || c >= n) return INT_MAX;
-        if(r == m-1) return dp[r][c] = grid[r][c];
-        if(dp[r][c] != INT_MAX) return dp[r][c];
-
-        int nc = INT_MAX;
-        for(int i = 0; i < n; i++){
-            if(i == c) continue;
-            nc = min(nc, shortest_path(r+1, i, grid, dp));
-        }
-
-        return dp[r][c] = grid[r][c] + nc;
-    }
-
     int minFallingPathSum(vector<vector<int>>& matrix) {
-        int n = matrix.size(), ans = INT_MAX;
-        vector<vector<int>> dp(n, vector<int>(n, INT_MAX));
+        int m = matrix.size(), n = matrix[0].size(), ans = INT_MAX;
+        vector<vector<int>> dp(m, vector<int>(n, INT_MAX));
 
         for (int i = 0; i < n; i++) {
-            ans = min(ans, shortest_path(0, i, matrix, dp));
+            dp[m-1][i] = matrix[m-1][i];
         }
-        return ans;
+
+        for(int i = m-2; i >= 0; i--){
+            for(int j = 0; j < n; j++){
+                int nc = INT_MAX;
+                for(int k = 0; k < n; k++){
+                    if(j == k) continue;
+                    nc = min(nc, dp[i+1][k]);
+                }
+                dp[i][j] = matrix[i][j] + nc;
+            }
+        }
+        return *min_element(dp[0].begin(), dp[0].end());
     }
 };
