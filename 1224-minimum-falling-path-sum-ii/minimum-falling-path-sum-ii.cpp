@@ -6,6 +6,7 @@ public:
 
         int smallest = INT_MAX, smallest2 = INT_MAX, si;
 
+        // Base case settlement
         for (int i = 0; i < n; i++) {
             dp[m-1][i] = matrix[m-1][i];
             if(matrix[m-1][i] < smallest){
@@ -18,6 +19,7 @@ public:
             }
         }
 
+        // Building up the DP table
         for(int i = m-2; i >= 0; i--){
             int currSmallest = INT_MAX, currSmallest2 = INT_MAX, currI;
             for(int j = 0; j < n; j++){
