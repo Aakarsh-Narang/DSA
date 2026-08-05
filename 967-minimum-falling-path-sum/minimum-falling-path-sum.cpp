@@ -18,7 +18,8 @@ public:
     }
     int minFallingPathSum(vector<vector<int>>& matrix) {
         int m = matrix.size(), n = matrix[0].size(), ans = INT_MAX;
-        vector<vector<int>> dp(m, vector<int>(n, INT_MAX));
+        // -1 default dp value breaks here as grid values can be -ve as well
+        vector<vector<int>> dp(m, vector<int>(n, INT_MAX));  
 
         for(int i = 0; i < n; i++){
             ans = min(ans, shortestPath(0, i, matrix, dp));
