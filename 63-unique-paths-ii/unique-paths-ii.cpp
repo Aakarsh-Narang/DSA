@@ -5,19 +5,24 @@ public:
         int rows = mat.size();
         int cols = mat[0].size();
         vector<vector<int>> dp(rows, vector<int>(cols, 0));
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        // Mark 1 till no obstacle blocks the straight path
+        for(int i = 0; i < rows; i++){
+            if(mat[i][0] == 1) break;
+            dp[i][0] = 1;
+        }
+        for(int i = 0; i < cols; i++){
+            if(mat[0][i] == 1) break;
+            dp[0][i] = 1;
+        }
+        for (int i = 1; i < rows; i++) {
+            for (int j = 1; j < cols; j++) {
 
                 if (mat[i][j] == 1) {
                     dp[i][j] = 0;
                 }
-                else if (i == 0 && j == 0) {
-                    dp[i][j] = 1;
-                }
                 else {
-                    int up = (i > 0) ? dp[i - 1][j] : 0;
-                    int left = (j > 0) ? dp[i][j - 1] : 0;
+                    int up = dp[i - 1][j];
+                    int left = dp[i][j - 1];
                     dp[i][j] = (up + left);
                 }
             }
