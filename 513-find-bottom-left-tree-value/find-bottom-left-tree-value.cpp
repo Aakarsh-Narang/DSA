@@ -11,24 +11,21 @@
  */
 class Solution {
 public:
+    pair<int, int> find(TreeNode* root, int depth){
+        // Base cases
+        if(!root) return {-1, -1};
+        if(!root->left && !root->right) return {root->val, depth};
+        
+        pair<int, int> left = find(root->left, depth + 1);
+        pair<int, int> right = find(root->right, depth + 1);
+        
+        // cout << root->val << "\n"; 
+        // cout << "Left: " << left.first <<" " << left.second << endl;
+        // cout << "Right: " << right.first << " " << right.second<<endl<<endl;
+
+        return left.second >= right.second ? left : right;
+    }
     int findBottomLeftValue(TreeNode* root) {
-        if(!root) return {};
-        int ans;
-        queue<TreeNode*> q;
-
-        q.push(root);
-        while(!q.empty()){
-            int s = q.size();
-            for(int i = 0; i < s; i++){
-                TreeNode* curr = q.front();
-                q.pop();
-
-                if(i == 0) ans = curr->val;
-                if(curr->left) q.push(curr->left);
-                if(curr->right) q.push(curr->right);
-            }
-        }
-
-        return ans;
+        return find(root, 0).first;
     }
 };
