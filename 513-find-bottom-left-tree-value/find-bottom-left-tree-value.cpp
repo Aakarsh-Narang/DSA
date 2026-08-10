@@ -18,10 +18,6 @@ public:
         
         pair<int, int> left = find(root->left, depth + 1);
         pair<int, int> right = find(root->right, depth + 1);
-        
-        // cout << root->val << "\n"; 
-        // cout << "Left: " << left.first <<" " << left.second << endl;
-        // cout << "Right: " << right.first << " " << right.second<<endl<<endl;
 
         return left.second >= right.second ? left : right;
     }
