@@ -23,8 +23,7 @@ public:
             curr.second++;
         }
         else{
-            curr.first = root->val;
-            curr.second = 1;
+            curr = {root->val, 1};
         }
 
         if(curr.second > maxFreq){
