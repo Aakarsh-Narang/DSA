@@ -22,8 +22,6 @@ public:
                 TreeNode* curr = q.front();
                 q.pop();
 
-                cout << curr->val << endl;
-
                 if(curr->left) q.push(curr->left);
                 if(curr->right) q.push(curr->right);
 
