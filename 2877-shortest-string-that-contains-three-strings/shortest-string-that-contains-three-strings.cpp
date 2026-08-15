@@ -30,9 +30,7 @@ public:
             string cur = merge(v[0], v[1]);
             cur = merge(cur, v[2]);
 
-            if (ans == "" ||
-                cur.size() < ans.size() ||
-                (cur.size() == ans.size() && cur < ans)) {
+            if (ans == "" || cur.size() < ans.size() || (cur.size() == ans.size() && cur < ans)){
                 ans = cur;
             }
 
