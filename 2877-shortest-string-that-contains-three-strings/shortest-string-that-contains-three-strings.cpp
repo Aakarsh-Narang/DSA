@@ -34,7 +34,7 @@ public:
                 ans = cur;
             }
 
-        } while (next_permutation(v.begin(), v.end()));
+        } while(next_permutation(v.begin(), v.end()));
 
         return ans;
     }
