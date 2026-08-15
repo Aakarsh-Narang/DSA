@@ -11,9 +11,9 @@ public:
 
         int skip = 0, group = 0;
         if(i < n-1 && ((s[i] == '1') || (s[i] == '2' && s[i+1] <= '6'))){
-            skip = decode(s, i+2);
+            group = decode(s, i+2);
         } 
-        group = decode(s, i+1);
+        skip = decode(s, i+1);
 
         return dp[i] =  skip + group;
     }
