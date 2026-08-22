@@ -1,26 +1,26 @@
 class Solution {
 public:
-    int collect(vector<int>& coins, vector<vector<int>>& dp, int indx, long long curr, int& amount){
-        if(curr == amount) return 0;
-        if(curr > amount || indx == coins.size()) return 1e7;
+    const int INF = 1e8;
+    int solve(vector<int>& coins, vector<vector<int>>& dp, int idx, int amount){
+        if(amount == 0) return 0;
+        if(idx==0){
+            if(amount % coins[0] == 0) return amount/coins[0];
+            return INF;
+        }
 
-        if(dp[indx][curr] != -1) return dp[indx][curr];
+        if(dp[idx][amount] != -1) return dp[idx][amount];
 
-        long long take = 1e7;
-        if(coins[indx] <= amount - curr)
-            take = 1 + collect(coins, dp, indx, curr+coins[indx], amount);
-        long long skip = collect(coins, dp, indx+1, curr, amount);
+        int take = INF, notTake = solve(coins, dp, idx-1, amount);
+        if(coins[idx]<=amount)
+            take=1 + solve(coins, dp, idx, amount-coins[idx]);
 
-        return dp[indx][curr] = min(take, skip);
+        return dp[idx][amount] = min(take, notTake);
     }
     int coinChange(vector<int>& coins, int amount) {
-        sort(coins.begin(), coins.end(), greater<int>());
-        int n = coins.size();
-        vector<vector<int>> dp(n, vector<int>(amount+1, -1));
+        sort(coins.begin(), coins.end());
+        vector<vector<int>> dp(coins.size(), vector<int>(amount+1, -1));
 
-        int ans = collect(coins, dp, 0, 0, amount);
-
-        if(ans >= 1e7) return -1;
-        return ans; 
+        int ans = solve(coins, dp, coins.size()-1, amount);
+        return ans>=INF ? -1 : ans;
     }
 };
