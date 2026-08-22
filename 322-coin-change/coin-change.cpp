@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int collect(vector<int>& coins, vector<vector<long long>>& dp, int indx, long long curr, int& amount){
+    int collect(vector<int>& coins, vector<vector<int>>& dp, int indx, long long curr, int& amount){
         if(curr == amount) return 0;
         if(curr > amount || indx == coins.size()) return 1e7;
 
@@ -15,7 +15,7 @@ public:
     }
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
-        vector<vector<long long>> dp(n, vector<long long>(amount+1, -1));
+        vector<vector<int>> dp(n, vector<int>(amount+1, -1));
 
         int ans = collect(coins, dp, 0, 0, amount);
 
