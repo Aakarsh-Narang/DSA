@@ -14,6 +14,7 @@ public:
         return dp[indx][curr] = min(take, skip);
     }
     int coinChange(vector<int>& coins, int amount) {
+        sort(coins.begin(), coins.end(), greater<int>());
         int n = coins.size();
         vector<vector<int>> dp(n, vector<int>(amount+1, -1));
 
