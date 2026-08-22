@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int collect(vector<int>& coins, vector<vector<long long>>& dp, int indx, long long curr, int& amount){
+        if(curr == amount) return 0;
+        if(curr > amount || indx == coins.size()) return INT_MAX;
+
+        if(dp[indx][curr] != -1) return dp[indx][curr];
+
+        long long take = collect(coins, dp, indx, curr+coins[indx], amount);
+        long long skip = collect(coins, dp, indx+1, curr, amount);
+
+        if(take != INT_MAX) take++;
+
+        return dp[indx][curr] = min(take, skip);
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        vector<vector<long long>> dp(n, vector<long long>(amount+1, -1));
+
+        int ans = collect(coins, dp, 0, 0, amount);
+
+        if(ans == INT_MAX) return -1;
+        return ans; 
+    }
+};
