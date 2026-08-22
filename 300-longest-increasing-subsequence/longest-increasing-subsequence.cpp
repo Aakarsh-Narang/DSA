@@ -1,29 +1,31 @@
 class Solution {
 public:
-    int correctIdx(vector<int>& lis, int target){
-        int ans = 0, lo = 0, hi = lis.size() - 1;
-        while(lo <= hi){
-            int mid = (hi - lo) / 2 + lo;
-            if(lis[mid] >= target){
-                ans = mid;
-                hi = mid - 1;
-            }
-            else{
-                lo = mid + 1;
+    int solve(vector<int>& nums, vector<int>& dp, int i) {
+        if(dp[i] != -1)
+            return dp[i];
+
+        int ans = 1;  // include nums[i]
+
+        for(int j = i + 1; j < nums.size(); j++) {
+            if(nums[j] > nums[i]) {
+                ans = max(ans, 1 + solve(nums, dp, j));
             }
         }
-        return ans;
+
+        return dp[i] = ans;
     }
+
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<int> lis;
-        lis.push_back(nums[0]);
-        for(int i = 1; i < n; i++){
-            if(nums[i] > lis.back()) lis.push_back(nums[i]);
-            else{
-                lis[correctIdx(lis, nums[i])] = nums[i];
-            }
+
+        vector<int> dp(n, -1);
+
+        int ans = 0;
+
+        for(int i = 0; i < n; i++) {
+            ans = max(ans, solve(nums, dp, i));
         }
-        return lis.size();
+
+        return ans;
     }
 };
