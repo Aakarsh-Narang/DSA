@@ -9,7 +9,7 @@ public:
         bool take = solve(nums, dp, indx+1, sum + nums[indx], target);
         bool notTake = solve(nums, dp, indx+1, sum, target);
         
-        return dp[indx][sum] = take || notTake;
+        return dp[indx][sum] = take | notTake;
     }
     bool canPartition(vector<int>& nums) {
         int n = nums.size(), totalSum = accumulate(nums.begin(), nums.end(), 0);
