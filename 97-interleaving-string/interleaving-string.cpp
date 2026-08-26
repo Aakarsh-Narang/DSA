@@ -16,8 +16,8 @@ public:
         int n1 = s1.size(), n2 = s2.size(), n3 = s3.size();
 
         if(n1 + n2 != n3) return false;
-        if(n1 == 0) return s2 == s3;
-        if(n2 == 0) return s1 == s3;
+        // if(n1 == 0) return s2 == s3;
+        // if(n2 == 0) return s1 == s3;
 
         vector<vector<int>> dp(n1+1, vector<int>(n2+1, -1));
         return isPossible(s1, s2, s3, dp, 0, 0);
