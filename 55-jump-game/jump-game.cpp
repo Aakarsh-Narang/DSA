@@ -1,21 +1,15 @@
 class Solution {
 public:
-    bool solve(vector<int>& nums, vector<int>& dp, int indx){
-        if(indx >= nums.size()-1) return true;
-        if(dp[indx] != -1) return dp[indx];
+    bool canJump(vector<int>& nums) {
+        int maxIndx = 0, n = nums.size();
 
-        bool canReach = false;
-        int range = min(((int)nums.size()-1), (indx + nums[indx]));
-        for(int i = indx+1; i <= range; i++){
-            canReach = canReach || solve(nums, dp, i);
+        for(int i = 0; i < nums.size(); i++){
+            maxIndx = max(maxIndx, i + nums[i]);
+
+            if(maxIndx >= n-1) return true;
+            if(i >= maxIndx) return false;
         }
 
-        return dp[indx] = canReach;
-    }
-    bool canJump(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> dp(n, -1);
-
-        return solve(nums, dp, 0);
+        return false;
     }
 };
