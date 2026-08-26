@@ -1,43 +1,25 @@
 class Solution {
 public:
-    bool solve(string& s1, string& s2, string& s3, int i, int j, vector<vector<int>>& dp){
-        if(i >= s1.size() && j >=s2.size()){
-            return true;
-        }
+    bool isPossible(string& s1, string& s2, string& s3, vector<vector<int>>& dp, int i, int j){
+        if(i >= s1.size() && j >= s2.size()) return true;
+        if(dp[i][j] != -1) return dp[i][j];
 
-        if(dp[i][j] != -1) return dp[i][j] == 1;
-
-        bool takeFrom1 = false, takeFrom2 = false;
+        bool take1 = false, take2 = false;
         if(i < s1.size() && s1[i] == s3[i+j])
-            takeFrom1 = solve(s1, s2, s3, i+1, j, dp);
+            take1 = isPossible(s1, s2, s3, dp, i+1, j);
         if(j < s2.size() && s2[j] == s3[i+j])
-            takeFrom2 = solve(s1, s2, s3, i, j+1, dp);
+            take2 = isPossible(s1, s2, s3, dp, i, j+1);
 
-        return dp[i][j] = takeFrom1 || takeFrom2;
+        return dp[i][j] = take1 || take2;
     }
-
-    // Tabulation
     bool isInterleave(string s1, string s2, string s3) {
-        int m = s1.size(), n = s2.size();
-        if(s3.size() != m+n) return false;
+        int n1 = s1.size(), n2 = s2.size(), n3 = s3.size();
 
-        vector<vector<bool>> dp(m+1, vector<bool>(n+1, false));
-        dp[m][n] = true;
+        if(n1 + n2 != n3) return false;
+        if(n1 == 0) return s2 == s3;
+        if(n2 == 0) return s1 == s3;
 
-        for(int i = m; i >= 0; i--){
-            for(int j = n; j>=0; j--){
-                if(i == m && j == n) continue;
-
-                bool takeFrom1 = 0, takeFrom2 = 0;
-                if(i < m && s1[i] == s3[i+j])
-                    takeFrom1 = dp[i+1][j];
-                if(j < n && s2[j] == s3[i+j])
-                    takeFrom2 = dp[i][j+1];
-
-                dp[i][j] = takeFrom1 || takeFrom2;
-            }
-        }
-
-        return dp[0][0];
+        vector<vector<int>> dp(n1+1, vector<int>(n2+1, -1));
+        return isPossible(s1, s2, s3, dp, 0, 0);
     }
 };
