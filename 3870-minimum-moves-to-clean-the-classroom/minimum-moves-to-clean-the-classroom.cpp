@@ -3,7 +3,7 @@ public:
     static constexpr int dx[4] = {0, 1, 0, -1};
     static constexpr int dy[4] = {1, 0, -1, 0};
 
-    struct Info {
+    struct State {
         int x, y, mask, e, steps;
     };
 
@@ -25,11 +25,11 @@ public:
 
         vector bestEnergy(m, vector(n, vector<int>(1 << cnt, -1)));
         bestEnergy[sx][sy][0] = energy;
-        queue<Info> q;
-        
+        queue<State> q;
+
         q.push({sx, sy, 0, energy, 0});
         while (!q.empty()) {
-            Info t = q.front();
+            State t = q.front();
             q.pop();
             if(t.mask == (1 << cnt) - 1) {
                 return t.steps;
