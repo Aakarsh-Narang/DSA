@@ -14,10 +14,10 @@ public:
         int sx, sy, cnt = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (classroom[i][j] == 'S') {
+                if (classroom[i][j] == 'S'){
                     sx = i;
                     sy = j;
-                } else if (classroom[i][j] == 'L') {
+                } else if (classroom[i][j] == 'L'){
                     id[i][j] = 1 << cnt++;
                 }
             }
