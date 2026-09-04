@@ -2,7 +2,6 @@ class Solution {
 public:
     int findPairs(vector<int>& nums, int k) {
         sort(nums.begin(), nums.end());
-        set<pair<int, int>> st;
 
         int i = 0, j = 1, n = nums.size(), cnt = 0;
 
@@ -12,9 +11,15 @@ public:
                 continue;
             }
             if(nums[j] - nums[i] == k){
-                st.insert({nums[i], nums[j]});
+                cnt++;
                 i++;
                 j++;
+                while(i < n && nums[i] == nums[i-1]){
+                    i++;
+                }
+                while(j < n && nums[j] == nums[j-1]){
+                    j++;
+                }
             }
             else if(nums[j] - nums[i] > k){
                 i++;
@@ -24,6 +29,6 @@ public:
             }
         }
 
-        return st.size();
+        return cnt;
     }
 };
