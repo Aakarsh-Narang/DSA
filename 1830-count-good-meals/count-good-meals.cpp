@@ -26,9 +26,9 @@ public:
                     }
 
                     if(leftVal == rightVal)
-                        ans = (ans + 1LL * cnt1 * (cnt1 - 1) / 2) % MOD;
+                        ans = (ans + (1LL * cnt1 * (cnt1 - 1) / 2) % MOD) % MOD;
                     else
-                        ans = (ans + 1LL * cnt1 * cnt2) % MOD;
+                        ans = (ans + (1LL * cnt1 * cnt2) % MOD) % MOD;
                 }
                 else if(deliciousness[l] + deliciousness[r] > currTarget){
                     r--;
