@@ -22,7 +22,6 @@ public:
         auto [leftSum, leftCnt] = traverse(root->left);
         auto [rightSum, rightCnt] = traverse(root->right);
 
-        if(leftCnt != 0 || rightCnt != 0)
         if(root->val == (leftSum + rightSum + root->val)/(leftCnt + rightCnt + 1)) cnt++;
 
         return {leftSum + rightSum + root->val, leftCnt + rightCnt + 1};
