@@ -1,22 +1,27 @@
 class Solution {
 public:
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-        int m=heights.size(), n=heights[0].size();
-        vector<vector<bool>> pacific(m, vector<bool>(n,0));
-        vector<vector<bool>> atlantic(m, vector<bool>(n,0));
-        queue<pair<int,int>> q;
-        vector<int> dir={-1,0,1,0,-1};
+        // We do reverse engineering here
+        // Instead of taking water from each cell to the boundaries, 
+        // We bring water from boudnaries back into the grid with reversed logic
+        // At end we check at what cells have received watere from both oceans
+
+        int m = heights.size(), n = heights[0].size();
+        int dir[5] = {-1, 0, 1, 0, -1};
+        vector<vector<bool>> atlantic(m, vector<bool>(n, false));
+        vector<vector<bool>> pacific(m, vector<bool>(n, false));
         vector<vector<int>> ans;
 
-        // BFS for pacific ocean
+        queue<pair<int, int>> q;
 
+        // Pacific
         for(int i = 0; i < m; i++){
+            pacific[i][0] = 1;
             q.push({i, 0});
-            pacific[i][0] = true;
         }
-        for(int i = 0; i < n; i++){
-            q.push({0, i});
-            pacific[0][i] = true;
+        for(int j = 0; j < n; j++){
+            pacific[0][j] = 1;
+            q.push({0, j});
         }
 
         while(!q.empty()){
@@ -25,22 +30,23 @@ public:
 
             for(int i = 0; i < 4; i++){
                 int nr = r + dir[i], nc = c + dir[i+1];
-                if(nr >= 0 && nc >= 0 && nr < m && nc < n && !pacific[nr][nc] && heights[nr][nc] >= heights[r][c]){
+
+                if(nr >= 0 && nr < m && nc >= 0 && nc < n && heights[r][c] <= heights[nr][nc] && !pacific[nr][nc]){
                     q.push({nr, nc});
-                    pacific[nr][nc] = true;
+                    pacific[nr][nc] = 1;
                 }
             }
         }
 
-        // BFS for atlantic ocean
 
+        // Atlantic
         for(int i = 0; i < m; i++){
+            atlantic[i][n-1] = 1;
             q.push({i, n-1});
-            atlantic[i][n-1] = true;
         }
-        for(int i = 0; i < n; i++){
-            q.push({m-1, i});
-            atlantic[m-1][i] = true;
+        for(int j = 0; j < n; j++){
+            atlantic[m-1][j] = 1;
+            q.push({m-1, j});
         }
 
         while(!q.empty()){
@@ -49,16 +55,17 @@ public:
 
             for(int i = 0; i < 4; i++){
                 int nr = r + dir[i], nc = c + dir[i+1];
-                if(nr >= 0 && nc >= 0 && nr < m && nc < n && !atlantic[nr][nc] && heights[nr][nc] >= heights[r][c]){
+
+                if(nr >= 0 && nr < m && nc >= 0 && nc < n && heights[r][c] <= heights[nr][nc] && !atlantic[nr][nc]){
                     q.push({nr, nc});
-                    atlantic[nr][nc] = true;
+                    atlantic[nr][nc] = 1;
                 }
             }
         }
 
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
-                if(atlantic[i][j] && pacific[i][j]){
+                if(pacific[i][j] && atlantic[i][j]){
                     ans.push_back({i, j});
                 }
             }
