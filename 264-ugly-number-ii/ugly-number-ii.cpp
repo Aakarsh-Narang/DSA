@@ -1,25 +1,37 @@
 class Solution {
 public:
     int nthUglyNumber(int n) {
-        vector<int> primes = {2, 3, 5};
-        priority_queue<long, vector<long>, greater<long>> uglyHeap;
-        unordered_set<long> visited;
-        
-        uglyHeap.push(1);
-        visited.insert(1);
-        
-        long curr;
-        for (int i = 0; i < n; ++i) {
-            curr = uglyHeap.top();
-            uglyHeap.pop();
-            for (int prime : primes) {
-                long new_ugly = curr * prime;
-                if (visited.find(new_ugly) == visited.end()) {
-                    uglyHeap.push(new_ugly);
-                    visited.insert(new_ugly);
-                }
+        vector<long long> ugly;
+        unordered_set<long long> st;
+
+        ugly.push_back(1);
+        st.insert(1);
+
+        int generator = 0;
+
+        while(generator < n - 1) {
+            long long curr = ugly[generator];
+
+            if(!st.count(curr * 2)) {
+                ugly.push_back(curr * 2);
+                st.insert(curr * 2);
             }
+
+            if(!st.count(curr * 3)) {
+                ugly.push_back(curr * 3);
+                st.insert(curr * 3);
+            }
+
+            if(!st.count(curr * 5)) {
+                ugly.push_back(curr * 5);
+                st.insert(curr * 5);
+            }
+
+            generator++;
+
+            sort(ugly.begin() + generator, ugly.end());
         }
-        return (int)curr;
+
+        return ugly[n - 1];
     }
 };
