@@ -4,4 +4,4 @@ FROM employee e
 JOIN employee m
 ON e.managerId = m.id
 GROUP BY m.id, m.name
-HAVING COUNT(*) >= 5
+HAVING COUNT(m.id) >= 5
