@@ -4,7 +4,7 @@ public:
         int ans = 0;
 
         for(int i = 0; i < s.size(); i++){
-            int ch = (26 - (s[i] - 'a'));
+            int ch = (int)('{' - s[i]);
             ans += (ch * (i+1));
         }
 
