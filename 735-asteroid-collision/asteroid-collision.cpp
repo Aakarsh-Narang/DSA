@@ -1,48 +1,53 @@
 class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& asteroids) {
-        int n = asteroids.size();
         vector<int> ans;
+        int n = asteroids.size();
         stack<int> st;
-        st.push(asteroids[0]);
-        for(int i = 1; i < n; i++){
+
+        for(int i = 0; i < n; i++){
             if(st.empty()){
                 st.push(asteroids[i]);
                 continue;
             }
-            bool tbp = true;  // tbp - to be pushed
+            bool tbp = 1;  // tbp -> to be pushed
             while(!st.empty()){
-                bool currDir = asteroids[i] < 0;
-                bool prevDir = st.top() < 0;
-                bool collide = currDir != prevDir;
+                bool currDir = asteroids[i] > 0;
+                bool prevDir = st.top() > 0;
+                int prev = st.top();
+                int curr = asteroids[i];
 
-                //  <--  -->  Moving away
-                if(prevDir && !currDir) break;  
-                if(collide){
-                    if(abs(asteroids[i]) > abs(st.top())){
-                        st.pop();
-                    }
-                    else if(abs(asteroids[i]) == abs(st.top())){
-                        st.pop();
-                        tbp = false;
-                        break;
-                    }
-                    else{
-                        tbp = false;
-                        break;
-                    }
+                // Moiving Away  <-- -->
+                if(currDir && !prevDir){
+                    break;
+                }
+                // Moving in the same direction
+                if(currDir == prevDir) break;
+                if(abs(prev) > abs(curr)){
+                    tbp = 0;
+                    break;
+                } 
+                else if (abs(prev) < abs(curr)){ 
+                    st.pop();
                 }
                 else{
+                    tbp = 0;
+                    st.pop();
                     break;
                 }
             }
-            if(tbp) st.push(asteroids[i]);
+            if(tbp){
+                st.push(asteroids[i]);
+            }
         }
+
         while(!st.empty()){
             ans.push_back(st.top());
             st.pop();
         }
+
         reverse(ans.begin(), ans.end());
+
         return ans;
     }
 };
