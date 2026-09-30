@@ -13,10 +13,10 @@ public:
             st.insert({i, 0});
         }
 
-        for(int i = 1; i < n2; i++){
-            pq.push({nums1[0] + nums2[i], 0, i});
-            st.insert({0, i});
-        }
+        // for(int i = 1; i < n2; i++){
+        //     pq.push({nums1[0] + nums2[i], 0, i});
+        //     st.insert({0, i});
+        // }
 
         while(k--){
             auto [sum, r, c] = pq.top();
