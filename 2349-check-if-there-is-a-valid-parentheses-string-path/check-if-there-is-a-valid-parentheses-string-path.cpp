@@ -2,7 +2,7 @@ class Solution {
 public:
     bool hasValidPath(vector<vector<char>>& grid) {
         int m = grid.size(), n = grid[0].size();
-        vector<vector<set<int>>> dp(m, vector<set<int>>(n));
+        vector<vector<unordered_set<int>>> dp(m, vector<unordered_set<int>>(n));
 
         if(grid[0][0] == ')' || grid[m-1][n-1] == '(') return false;
 
