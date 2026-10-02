@@ -1,43 +1,26 @@
 class Solution {
 public:
+    bool solve(vector<vector<char>>& grid, vector<vector<vector<int>>>& dp, int r, int c, int bal){
+        int m = grid.size(), n = grid[0].size();
+        if(r >= m || c >= n) return false;
+
+        if(grid[r][c] == '(') bal++;
+        else bal--;
+
+        if(bal < 0) return false;
+        
+        if(dp[r][c][bal] != -1) return dp[r][c][bal];
+        if(r == m-1 && c == n-1) return dp[r][c][bal] = (bal == 0);
+
+        int right = solve(grid, dp, r, c+1, bal);
+        int down = solve(grid, dp, r+1, c, bal);
+
+        return dp[r][c][bal] = right || down;
+    }
     bool hasValidPath(vector<vector<char>>& grid) {
-        const int n = grid.size();
-        const int m = grid[0].size();
-        const int pathLen = n + m - 1;
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<vector<int>>> dp(m, vector<vector<int>>(n, vector<int>(m+n, -1)));
 
-        if (pathLen % 2 == 1) {
-            return false;
-        }
-        if (grid[0][0] != '(' || grid[n - 1][m - 1] != ')') {
-            return false;
-        }
-
-        vector<vector<bitset<201>>> dp(n, vector<bitset<201>>(m));
-
-        dp[0][0].set(1);
-
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < m; ++j) {
-                const int change = grid[i][j] == '(' ? 1 : -1;
-
-                if (i > 0) {
-                    if (change == 1) {
-                        dp[i][j] |= dp[i - 1][j] << 1;
-                    } else {
-                        dp[i][j] |= dp[i - 1][j] >> 1;
-                    }
-                }
-
-                if (j > 0) {
-                    if (change == 1) {
-                        dp[i][j] |= dp[i][j - 1] << 1;
-                    } else {
-                        dp[i][j] |= dp[i][j - 1] >> 1;
-                    }
-                }
-            }
-        }
-
-        return dp[n - 1][m - 1].test(0);
+        return solve(grid, dp, 0, 0, 0);
     }
 };
