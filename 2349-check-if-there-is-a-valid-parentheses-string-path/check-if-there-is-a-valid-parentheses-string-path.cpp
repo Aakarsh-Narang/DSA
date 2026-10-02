@@ -1,26 +1,34 @@
 class Solution {
 public:
-    bool solve(vector<vector<char>>& grid, vector<vector<vector<int>>>& dp, int r, int c, int bal){
-        int m = grid.size(), n = grid[0].size();
-        if(r >= m || c >= n) return false;
-
-        if(grid[r][c] == '(') bal++;
-        else bal--;
-
-        if(bal < 0) return false;
-        
-        if(dp[r][c][bal] != -1) return dp[r][c][bal];
-        if(r == m-1 && c == n-1) return dp[r][c][bal] = (bal == 0);
-
-        int right = solve(grid, dp, r, c+1, bal);
-        int down = solve(grid, dp, r+1, c, bal);
-
-        return dp[r][c][bal] = right || down;
-    }
     bool hasValidPath(vector<vector<char>>& grid) {
         int m = grid.size(), n = grid[0].size();
-        vector<vector<vector<int>>> dp(m, vector<vector<int>>(n, vector<int>(m+n, -1)));
+        vector<vector<set<int>>> dp(m, vector<set<int>>(n));
 
-        return solve(grid, dp, 0, 0, 0);
+        if(grid[0][0] == ')' || grid[m-1][n-1] == '(') return false;
+
+        dp[0][0].insert(1);
+
+        for(int r = 0; r < m; r++){
+           for(int c = 0; c < n; c++){
+                if(r == 0 && c== 0) continue;
+
+                int delta = (grid[r][c] == '(') ? 1 : -1;
+
+                if(r > 0){
+                    for(auto& s : dp[r-1][c]){
+                        if(s + delta < 0) continue;
+                        dp[r][c].insert(s + delta);
+                    }
+                }
+                if(c > 0){
+                    for(auto& s : dp[r][c-1]){
+                        if(s + delta < 0) continue;
+                        dp[r][c].insert(s + delta);
+                    }
+                }
+           }
+        }
+
+        return dp[m-1][n-1].count(0);
     }
 };
