@@ -14,6 +14,7 @@ public:
                 leftMin--;
                 leftMax++;
             }
+            // cout <<leftMin << " " << leftMax<<endl;
             if (leftMax < 0) return false;
             if (leftMin < 0) leftMin = 0;
         }
