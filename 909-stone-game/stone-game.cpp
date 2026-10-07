@@ -1,15 +1,12 @@
 class Solution {
 public:
-    int play(vector<int>& nums, vector<vector<int>>& dp, int i, int j){
+    int play(vector<int>& stones, vector<vector<int>>& dp, int i, int j){
         if(i > j) return 0;
 
         if(dp[i][j] != -1) return dp[i][j];
 
-        int takeLeft, takeRight;
-        // Player1 tries to maximise the score
-        // After taking left or right, we check both cases if 2nd player took left or right in the next turn and take max of our turns further
-        takeLeft = nums[i] + max(play(nums, dp, i+2, j), play(nums, dp, i+1, j-1));
-        takeRight = nums[j] + max(play(nums, dp, i+1, j-1), play(nums, dp, i, j-2));
+        int takeLeft = stones[i] + min(play(stones, dp, i+2, j), play(stones, dp, i+1, j-1));
+        int takeRight = stones[j] + min(play(stones, dp, i+1, j-1), play(stones, dp, i, j-2));
 
         return dp[i][j] = max(takeLeft, takeRight);
     }
