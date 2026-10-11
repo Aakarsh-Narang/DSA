@@ -4,12 +4,14 @@ public:
         int l = 0, r = height.size() - 1, ans = 0;
 
         while(l < r){
-            int currArea = min(height[l], height[r]) * (r - l);
-            ans = max(ans, currArea);
-            if(height[l] < height[r]) l++;
+            int width = r - l;
+            int high = min(height[l], height[r]);
+            ans = max(ans, width * high);
+
+            if(height[l] <= height[r]) l++;
             else r--;
         }
-        
+       
         return ans;
     }
 };
