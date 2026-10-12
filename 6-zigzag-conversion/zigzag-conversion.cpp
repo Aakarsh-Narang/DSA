@@ -6,20 +6,25 @@ public:
         }
 
         string ans = "";
-        int n = s.length();
-        int cycleLen = 2 * numRows - 2;
+        int i = 0, r = 0, c = 0, n = s.length();
+        vector<vector<char>> diag(numRows, vector<char>(n, ' '));
 
-        // Iterate through each row one by one
-        for (int i = 0; i < numRows; i++) {
-            // Jump by cycleLen to process the current row
-            for (int j = 0; j + i < n; j += cycleLen) {
-                // 1. Add the vertical character (always exists for the row)
-                ans += s[j + i];
+        while(i < n){
+            if(r < numRows){
+                diag[r++][c] = s[i++];
+            }
+            else{
+                r-=2;  // Bring back from n -> n-2
+                c++;
+                while(r > 0 && i < n) diag[r--][c++] = s[i++];
 
-                // 2. Add the diagonal character (only for inner rows)
-                if (i != 0 && i != numRows - 1 && j + cycleLen - i < n) {
-                    ans += s[j + cycleLen - i];
-                }
+            }
+        }
+
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < n; j++){
+                if(diag[i][j] == ' ') continue;
+                ans += diag[i][j];
             }
         }
 
