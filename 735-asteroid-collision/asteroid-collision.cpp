@@ -1,43 +1,38 @@
 class Solution {
 public:
+    bool wontCollide(int top, int curr){
+        return (top < 0 && curr < 0) || (top > 0 && curr > 0) || (top < 0 && curr > 0);
+    }
     vector<int> asteroidCollision(vector<int>& asteroids) {
-        vector<int> ans;
-        int n = asteroids.size();
         stack<int> st;
+        vector<int> ans;
 
-        for(int i = 0; i < n; i++){
+        for(int i = 0; i < asteroids.size(); i++){
             if(st.empty()){
                 st.push(asteroids[i]);
                 continue;
             }
-            bool tbp = 1;  // tbp -> to be pushed
-            while(!st.empty()){
-                bool currDir = asteroids[i] > 0;
-                bool prevDir = st.top() > 0;
-                int prev = st.top();
-                int curr = asteroids[i];
+            
+            int top = st.top();
+            int curr = asteroids[i];
 
-                // Moiving Away  <-- -->
-                if(currDir && !prevDir){
-                    break;
-                }
-                // Moving in the same direction
-                if(currDir == prevDir) break;
-                if(abs(prev) > abs(curr)){
-                    tbp = 0;
-                    break;
-                } 
-                else if (abs(prev) < abs(curr)){ 
+            if(wontCollide(top, curr)) st.push(curr);
+
+            else{
+                bool survive = 1;
+                while(!st.empty() && !wontCollide(st.top(), curr)){
+                    if(abs(curr) < abs(st.top())) {
+                        survive = 0; 
+                        break;
+                    }
+                    if(abs(curr) == abs(st.top())){
+                        survive = 0;
+                        st.pop();
+                        break;
+                    }
                     st.pop();
                 }
-                else{
-                    tbp = 0;
-                    st.pop();
-                    break;
-                }
-            }
-            if(tbp){
-                st.push(asteroids[i]);
+                if(survive) st.push(curr);
             }
         }
 
