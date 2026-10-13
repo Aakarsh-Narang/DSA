@@ -8,6 +8,7 @@ public:
 
         for(int i = 0; i < n1; i++){
             pq.push({nums1[i] + nums2[0], i, 0});
+            if(i > k) break;
         }
 
         while(k--){
