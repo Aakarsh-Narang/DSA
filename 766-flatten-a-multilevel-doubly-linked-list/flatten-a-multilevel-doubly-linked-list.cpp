@@ -17,9 +17,11 @@ public:
         while(head){
             if(head->child){
                 Node* temp = traverse(head->child);
+                // Handle Next
                 temp->next = head->next;
                 if(head->next)
                     head->next->prev = temp;
+                // Handle Child 
                 head->next = head->child;
                 head->child->prev = head;
                 head->child = NULL;
