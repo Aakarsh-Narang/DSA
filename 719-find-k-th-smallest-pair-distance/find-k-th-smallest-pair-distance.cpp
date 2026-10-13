@@ -3,7 +3,7 @@ public:
     int count(vector<int>& nums, int diff) {
         int l = 0, r = 0, n = nums.size(), cnt = 0;
 
-        while (r < n) {
+        while(r < n) {
             while (nums[r] - nums[l] > diff)
                 l++;
 
