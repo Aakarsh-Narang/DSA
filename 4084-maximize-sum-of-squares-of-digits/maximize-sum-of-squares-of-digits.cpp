@@ -1,23 +1,15 @@
 class Solution {
 public:
     string maxSumOfSquares(int num, int sum) {
-        if(num*9 < sum) return "";
-        string ans = "";
-
-        while(num--){
-            int curr = 9;
-            while(curr > sum) curr--;
-
-            sum -= curr;
-            ans += to_string(curr);
-
-            if(sum == 0){
-                string temp(num, '0');
-                ans += temp;
-                break;
-            }
+        if (sum > 9 * num) {
+            return "";
         }
-
+        int r = sum % 9;
+        string ans(sum / 9, '9');  // How many 9s can be placed
+        if (r > 0) {
+            ans.push_back('0' + r);
+        }
+        ans.append(num - (int)ans.size(), '0');
         return ans;
     }
 };
