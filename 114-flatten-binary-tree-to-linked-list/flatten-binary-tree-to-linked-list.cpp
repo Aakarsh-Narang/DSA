@@ -12,16 +12,17 @@
 class Solution {
 public:
     TreeNode* traverse(TreeNode* root){
-        if(!root) return NULL;
+        if(!root) return nullptr;
         if(!root->left && !root->right) return root;
 
         TreeNode* leftTail = traverse(root->left);
         TreeNode* rightTail = traverse(root->right);
-        
+
         if(leftTail){
             leftTail->right = root->right;
             root->right = root->left;
-            root->left = NULL;
+
+            root->left = NULL; 
         }
 
         if(rightTail) return rightTail;
@@ -29,6 +30,5 @@ public:
     }
     void flatten(TreeNode* root) {
         traverse(root);
-
     }
 };
