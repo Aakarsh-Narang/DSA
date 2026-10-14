@@ -10,6 +10,12 @@ public:
 
             sum -= curr;
             ans += to_string(curr);
+
+            if(sum == 0){
+                string temp(num, '0');
+                ans += temp;
+                break;
+            }
         }
 
         return ans;
