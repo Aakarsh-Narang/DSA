@@ -1,11 +1,11 @@
 class Solution {
 public:
     bool canReach(vector<vector<int>>& grid, vector<vector<int>>& minTime, int startTime){
-        if (minTime[0][0] != 1e9 && minTime[0][0] <= startTime)
+        if(minTime[0][0] <= startTime)
             return false;
         int m = grid.size(), n = grid[0].size();
         vector<vector<bool>> vis(m, vector<bool>(n, 0));
-        queue<tuple<int, int, int>> q;  // row, col, time
+        queue<tuple<int, int, int>> q;  // {row, col, time}
         q.push({0, 0, startTime});
         vis[0][0] = 1;
 
@@ -67,9 +67,6 @@ public:
                 }
             }
         }
-
-        if (canReach(grid, minTime, 1e9))
-            return 1e9;
 
         int lo = 0, hi = 1e9, ans = -1;
 
