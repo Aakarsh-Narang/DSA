@@ -10,8 +10,8 @@ public:
         if(smaller.empty() && larger.empty()){
             smaller.push(num);
         }
-        else if(!larger.empty() && num > larger.top()) larger.push(num);
-        else smaller.push(num);
+        else if(larger.empty() || num <= smaller.top()) smaller.push(num);
+        else larger.push(num);
 
         if(smaller.size() > 1 + larger.size()){
             larger.push(smaller.top());
