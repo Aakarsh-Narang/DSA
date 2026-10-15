@@ -7,10 +7,7 @@ public:
     }
     
     void addNum(int num) {
-        if(smaller.empty() && larger.empty()){
-            smaller.push(num);
-        }
-        else if(larger.empty() || num <= smaller.top()) smaller.push(num);
+        if(larger.empty() || num <= smaller.top()) smaller.push(num);
         else larger.push(num);
 
         if(smaller.size() > 1 + larger.size()){
