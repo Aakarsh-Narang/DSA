@@ -19,7 +19,7 @@ public:
         while(lo <= hi){
             int mid = (hi - lo) / 2 + lo;
 
-            if(arr[mid].second >= sum/2.0){
+            if(arr[mid].second*2LL >= sum){
                 ansIndx = mid;
                 hi = mid - 1;
             }
