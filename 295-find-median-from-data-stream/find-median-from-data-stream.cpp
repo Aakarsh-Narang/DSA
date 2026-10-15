@@ -17,7 +17,7 @@ public:
             larger.push(smaller.top());
             smaller.pop();
         }
-        if(larger.size() > 1 + smaller.size()){
+        else if(larger.size() > 1 + smaller.size()){
             smaller.push(larger.top());
             larger.pop();
         }
