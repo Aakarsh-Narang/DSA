@@ -21,8 +21,6 @@ public:
             smaller.push(larger.top());
             larger.pop();
         }
-
-        cout << smaller.size() << " "<<larger.size()<<endl;
     }
     
     double findMedian() {
