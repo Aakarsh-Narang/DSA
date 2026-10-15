@@ -67,7 +67,7 @@ public:
                 }
             }
         }
-
+        if(canReach(grid, minTime, 1e9)) return 1e9;
         int lo = 0, hi = 1e9, ans = -1;
 
         while(lo <= hi){
