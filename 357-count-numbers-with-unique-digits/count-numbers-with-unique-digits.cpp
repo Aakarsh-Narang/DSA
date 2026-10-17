@@ -1,21 +1,14 @@
 class Solution {
 public:
-    int count(int n){
-        if(n == 0) return 1;
-        int ans = 9, uniqDigits = 9;
-        for(int i = 1; i < n; i++){
-            ans *= uniqDigits;
-            uniqDigits--;
-        }
-
-        return ans;
-    }
     int countNumbersWithUniqueDigits(int n) {
-        int ans = 0;
-
-        for(int i = 0; i <= n; i++){
-            ans += count(i);
+        if(n == 0) return 1;
+        int ans = 10, UniqDigits = 9, curr = 9;
+        for(int i = 2; i <= n; i++){
+            curr *= UniqDigits;
+            ans += curr;
+            UniqDigits--;
         }
+
         return ans;
     }
 };
