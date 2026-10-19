@@ -12,18 +12,16 @@
 class Solution {
 public:
     int sum = 0;
-    void convert(TreeNode* root){
+    void traverse(TreeNode* root){
         if(!root) return;
-
-        convert(root->right);
         
+        traverse(root->right);
         sum += root->val;
         root->val = sum;
-
-        convert(root->left);
+        traverse(root->left);
     }
     TreeNode* bstToGst(TreeNode* root) {
-        convert(root);
+        traverse(root);
         return root;
     }
 };
