@@ -9,8 +9,8 @@ public:
             sum += nums[i];
         }
 
-        while (st.count(sum)) sum++;
+        while (st.count(sum++));
 
-        return sum;
+        return sum-1;
     }
 };
