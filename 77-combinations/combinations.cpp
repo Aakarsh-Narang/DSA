@@ -8,11 +8,11 @@ public:
         }
         if(num > n) return;
 
-        curr.push_back(num);
-        solve(n, k, curr, num+1);
-        curr.pop_back();
-
-        solve(n, k, curr, num+1);
+        for(int i = num; i <= n; i++){
+            curr.push_back(i);
+            solve(n, k, curr, i+1);
+            curr.pop_back();
+        }
     }
     vector<vector<int>> combine(int n, int k) {
         vector<int> curr;
