@@ -1,26 +1,25 @@
 class Solution {
-public:
-    const int INF = 1e8;
-    int solve(vector<int>& coins, vector<vector<int>>& dp, int idx, int amount){
-        if(amount == 0) return 0;
-        if(idx==0){
-            if(amount % coins[0] == 0) return amount/coins[0];
-            return INF;
+public: 
+    long long solve(vector<int>& coins, vector<vector<long long>>& dp, long long curr, int indx, int amount){
+        if(indx == coins.size()){
+            if(curr == amount) return 0;
+            return 1e8;
         }
+        if(curr > amount) return 1e8;
+        if(dp[indx][curr] != -1) return dp[indx][curr];
 
-        if(dp[idx][amount] != -1) return dp[idx][amount];
+        long long take = 1 + solve(coins, dp, curr + coins[indx], indx, amount);
+        long long notTake = solve(coins, dp, curr, indx + 1, amount);
 
-        int take = INF, notTake = solve(coins, dp, idx-1, amount);
-        if(coins[idx]<=amount)
-            take=1 + solve(coins, dp, idx, amount-coins[idx]);
-
-        return dp[idx][amount] = min(take, notTake);
+        return dp[indx][curr] = min(take, notTake);
     }
     int coinChange(vector<int>& coins, int amount) {
-        sort(coins.begin(), coins.end());
-        vector<vector<int>> dp(coins.size(), vector<int>(amount+1, -1));
+        int n = coins.size();
+        vector<vector<long long>> dp(n, vector<long long>(amount+1, -1));
 
-        int ans = solve(coins, dp, coins.size()-1, amount);
-        return ans>=INF ? -1 : ans;
+        int ans = solve(coins, dp, 0LL, 0, amount);
+
+        if(ans >= 1e8) return -1;
+        return ans;
     }
 };
