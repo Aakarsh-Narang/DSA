@@ -19,8 +19,6 @@ public:
                 }
                 else if(nums[l] + nums[r] > target) r--;
                 else l++;
-
-                
             } 
         }
 
