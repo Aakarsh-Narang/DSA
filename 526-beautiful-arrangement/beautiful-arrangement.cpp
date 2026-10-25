@@ -10,8 +10,8 @@ public:
         for (int num = 1; num <= n; num++) {
             int bit = 1 << (num - 1);
 
-            if (mask & bit) continue;
-            if (num % curr != 0 && curr % num != 0) continue;
+            if (mask & bit) continue;   // Already Used
+            if (num % curr != 0 && curr % num != 0) continue;   // Condition not satisfied
 
             total += solve(n, curr + 1, mask | bit, dp);
         }
