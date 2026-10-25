@@ -1,24 +1,26 @@
 class Solution {
 public:
-    int solve(int n, int curr, vector<bool>& used) {
+    int solve(int n, int curr, int mask, vector<int>& dp) {
         if (curr == n + 1) return 1;
+
+        if (dp[mask] != -1) return dp[mask];
 
         int total = 0;
 
-        for (int i = 1; i <= n; i++) {
-            if (used[i]) continue;
-            if (i % curr != 0 && curr % i != 0) continue;
+        for (int num = 1; num <= n; num++) {
+            int bit = 1 << (num - 1);
 
-            used[i] = true;
-            total += solve(n, curr + 1, used);
-            used[i] = false;
+            if (mask & bit) continue;
+            if (num % curr != 0 && curr % num != 0) continue;
+
+            total += solve(n, curr + 1, mask | bit, dp);
         }
 
-        return total;
+        return dp[mask] = total;
     }
 
     int countArrangement(int n) {
-        vector<bool> used(n + 1, false);
-        return solve(n, 1, used);
+        vector<int> dp(1 << n, -1);
+        return solve(n, 1, 0, dp);
     }
 };
