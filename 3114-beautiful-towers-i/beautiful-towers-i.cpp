@@ -2,8 +2,8 @@ class Solution {
 public:
     long long maximumSumOfHeights(vector<int>& heights) {
         int n = heights.size();
-        unsigned long long ans = 0;
-        vector<unsigned long long> left(n, 0), right(n, 0);
+        long long ans = 0;
+        vector<long long> left(n, 0), right(n, 0);
         stack<int> st;
 
         for(int i = 0; i < n; i++){
