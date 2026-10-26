@@ -31,6 +31,7 @@ public:
                 newNode->next = mp[oldNode->next];
             }
         }
+        // Since we go all the way in recursively, so Entire nodes have been built
         if(oldNode->random != NULL){
             newNode->random = mp[oldNode->random];
         }
