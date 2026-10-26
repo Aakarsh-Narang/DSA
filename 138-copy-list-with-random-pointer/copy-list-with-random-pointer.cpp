@@ -31,7 +31,8 @@ public:
                 newNode->next = mp[oldNode->next];
             }
         }
-        // Since we go all the way in recursively, so Entire nodes have been built
+        // Since we go all the way in recursively, so all the nodes have been built
+        // Now we can just check & join them
         if(oldNode->random != NULL){
             newNode->random = mp[oldNode->random];
         }
