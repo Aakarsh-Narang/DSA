@@ -32,12 +32,7 @@ public:
             }
         }
         if(oldNode->random != NULL){
-            if(!vis[oldNode->next]){
-                newNode->random = build(oldNode->random, mp, vis);
-            }
-            else{
-                newNode->random = mp[oldNode->random];
-            }
+            newNode->random = mp[oldNode->random];
         }
 
         return newNode;
