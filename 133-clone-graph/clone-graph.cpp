@@ -42,12 +42,10 @@ public:
                 if(!mp.count(nbr->val)){
                     Node* temp = new Node(nbr->val);
                     mp[nbr->val] = temp;
-                }
-                copy->neighbors.push_back(mp[nbr->val]);
-                if(!vis[nbr->val]){
                     q.push(nbr);
                     vis[nbr->val] = true;
                 }
+                copy->neighbors.push_back(mp[nbr->val]);
             }
         }
         return initial;
