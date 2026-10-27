@@ -14,14 +14,12 @@ public:
         int currEnd = 0, farthest = 0, taps = 0, i = 0;
 
         while (currEnd < n) {
-            farthest = currEnd;
-
-            while (i < intervals.size() && intervals[i].first <= currEnd) {
+            while(i <= n && intervals[i].first <= currEnd){
                 farthest = max(farthest, intervals[i].second);
                 i++;
             }
 
-            if (farthest == currEnd) return -1;
+            if(currEnd == farthest) return -1;
 
             taps++;
             currEnd = farthest;
