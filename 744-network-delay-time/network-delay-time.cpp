@@ -1,37 +1,36 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        priority_queue<pair<int, int>> pq;   // {weight, node}
-        vector<vector<pair<int, int>>> adj(n);
-        int ans;
-        vector<int> dist(n,1e7);
+        vector<vector<pair<int, int>>> adj(n+1);
 
-        for(auto& e : times){
-            e[0]--;
-            e[1]--;
-            adj[e[0]].push_back({e[1], e[2]});
+        for(auto& t : times){
+            adj[t[0]].push_back({t[1], t[2]});
         }
-        k--;
-        
+
+        vector<int> dist(n+1, 1e8);
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
         pq.push({0, k});
         dist[k] = 0;
 
         while(!pq.empty()){
-            auto [wt, node] = pq.top();
+            auto [d, u] = pq.top();
             pq.pop();
 
-            for(auto& e : adj[node]){
-                auto [nbr, w] = e;
-
-                if(dist[nbr] == -1 || w + wt < dist[nbr]){
-                    dist[nbr] = w + wt;
-                    pq.push({w+wt, nbr});
+            if(dist[u] < d) continue;
+            for(auto& [nbr, w] : adj[u]){
+                if(d + w < dist[nbr]){
+                    dist[nbr] = d + w;
+                    pq.push({dist[nbr], nbr});
                 }
             }
-        }   
+        }
 
-        ans = *max_element(dist.begin(), dist.end());
-        if(ans == 1e7) return -1;
-        return ans;
+        int res = 0;
+        for(int i = 1; i <= n; i++){
+            if(dist[i] >= 1e8) return -1;
+            res = max(dist[i], res);
+        }
+
+        return res;
     }
 };
