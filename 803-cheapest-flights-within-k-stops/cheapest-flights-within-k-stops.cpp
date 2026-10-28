@@ -1,36 +1,31 @@
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        int ans = INT_MAX;
         vector<vector<pair<int, int>>> adj(n);
-        for (auto& f : flights) adj[f[0]].push_back({f[1], f[2]});
-
-        // Min-Heap stores: tuple<cost, node, stops_taken>
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> pq;
-        
-        // Tracks the minimum stops used to reach a node so far
         vector<int> minStops(n, INT_MAX);
+
+        for(auto& f : flights){
+            adj[f[0]].push_back({f[1], f[2]});
+        }
+
+        using state = tuple<int, int, int>;  // Dist, node, No_of_stops
+        priority_queue<state, vector<state>, greater<>> pq;
 
         pq.push({0, src, 0});
 
         while(!pq.empty()){
-            auto [cost, node, stops] = pq.top();
+            auto[d, node, stops] = pq.top();
             pq.pop();
+            if(node == dst) return d;
+            if(minStops[node] < stops || stops > k) continue;
+            minStops[node] = stops;
 
-            if(node == dst) return cost;
-
-            if(minStops[node] > stops)
-                minStops[node] = stops;
+            for(auto& [nbr, w] : adj[node]){
+                pq.push({d + w, nbr, stops+1});
+            }
             
-            else continue;
-            
-
-            if(stops > k) continue;
-
-            for(auto& [nbr, wt] : adj[node]){
-                pq.push({cost + wt, nbr, stops + 1});
-            }   
         }
-
         return -1;
     }
 };
