@@ -16,6 +16,7 @@ public:
 
         dq.push_front({0,0});
         dist[0][0] = 0;
+        int ans = INT_MAX;
 
         while(!dq.empty()){
             auto [r, c] = dq.front();
@@ -24,7 +25,7 @@ public:
             // cout << r<< " "<<c<<endl;
             if(r == m-1 && c == n-1){
                 // print(dist);
-                return dist[r][c];
+                ans = min(ans, dist[r][c]);
             }
 
             for(int i = 0; i < 4; i++){
@@ -43,6 +44,6 @@ public:
                 }
             }
         }
-        return 0;
+        return ans;
     }
 };
