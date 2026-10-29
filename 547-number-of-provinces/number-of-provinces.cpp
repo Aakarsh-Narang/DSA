@@ -19,8 +19,7 @@ public:
         if(pa == pb) return;   // Already Connected
 
         if(size[pa] < size[pb]){
-            unite(b, a);
-            return;
+            swap(pa, pb);
         }
 
         parent[pb] = pa;
